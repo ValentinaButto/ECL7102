@@ -1,6 +1,6 @@
 ---
 title: "Descriptive statistics and graphics"
-date: "<br/>August 30, 2021"
+date: "<br/>August 31, 2022"
 output:
     html_document:
         self_contained: false
@@ -384,6 +384,8 @@ For all types of variables:
 
 
 # References
+
+The content of this lecture is based on the course ECL7102 - Analyses et modélisation des données écologiques offered at UQAT during the fall 2021 session created by Philippe Marchand (formerly professo UQAT). The course content is available online at https://github.com/pmarchand1/ECL7102 
 
 For a more in-depth discussion of different methods and best practices to visualize data, I recommend the following online books:
 

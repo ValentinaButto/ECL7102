@@ -2,12 +2,14 @@
 title: "Statistiques descriptives et représentations graphiques"
 date: "<br/>31 août 2022"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include = FALSE}
@@ -384,6 +386,9 @@ Pour tous les types de variables:
 
 
 # Références
+
+Le contenu de cette partie est basé sur le cours ECL7102 - Analyses et modélisation des données écologiques offert à l'UQAT lors de la session d'automne 2021 créé par Philippe Marchand (anciennement professo UQAT). Le contenu du cours est disponible en ligne à l'adresse suivante : https://github.com/pmarchand1/ECL7102
+
 
 Pour une discussion plus approfondie des différentes méthodes et meilleures pratiques pour la construction de graphiques, je recommande les livres électroniques suivants: 
 

@@ -10,16 +10,26 @@
 
 
 
-<meta name="date" content="2021-09-01" />
+<meta name="date" content="2022-09-01" />
 
 <title>Introduction to R - Part 1</title>
 
-<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.15/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
 <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -27,12 +37,16 @@
 <link href="libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -45,32 +59,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 
 
@@ -80,10 +70,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -100,6 +86,12 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
@@ -112,7 +104,6 @@ summary {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -238,7 +229,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -249,12 +240,12 @@ div.tocify {
 
 
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
 <h1 class="title toc-ignore">Introduction to R - Part 1</h1>
-<h4 class="date">September 1, 2021</h4>
+<h4 class="date">September 1, 2022</h4>
 
 </div>
 
@@ -264,34 +255,51 @@ div.tocify {
 <div id="what-is-r" class="section level2">
 <h2>What is R?</h2>
 <ul>
-<li><em>R</em> refers both to a programming language and to the software that interprets commands written in that language.</li>
+<li><em>R</em> refers both to a programming language and to the software
+that interprets commands written in that language.</li>
 <li>The language was originally developed for statistical analysis.</li>
-<li>A large number of packages add to the basic features of <em>R</em>.</li>
-<li><em>R</em> is distributed as free software (<em>open source</em>).</li>
+<li>A large number of packages add to the basic features of
+<em>R</em>.</li>
+<li><em>R</em> is distributed as free software (<em>open
+source</em>).</li>
 </ul>
 </div>
 <div id="why-write-programs-for-data-analysis" class="section level2">
 <h2>Why write programs for data analysis?</h2>
-<p>Why should you write programs (or scripts) to perform data analyses, rather than using graphical interface software (such as Excel)? Learning a language like R requires more time initially, but brings several benefits.</p>
+<p>Why should you write programs (or scripts) to perform data analyses,
+rather than using graphical interface software (such as Excel)? Learning
+a language like R requires more time initially, but brings several
+benefits.</p>
 <ul>
-<li><p>The scripts are a faithful record of the analyses performed on a dataset. You, your collaborators or other researchers will easily be able to replicate this analysis in the future (e.g. when new data is available).</p></li>
-<li><p>Scripts automate repetitive tasks (e.g. perform the same analysis on 100 data files).</p></li>
+<li><p>The scripts are a faithful record of the analyses performed on a
+dataset. You, your collaborators or other researchers will easily be
+able to replicate this analysis in the future (e.g. when new data is
+available).</p></li>
+<li><p>Scripts automate repetitive tasks (e.g. perform the same analysis
+on 100 data files).</p></li>
 </ul>
 </div>
 <div id="why-program-in-r" class="section level2">
 <h2>Why program in R?</h2>
 <ul>
-<li><p>Functions and basic data types are designed for statistics.</p></li>
-<li><p>Free access to the software facilitates the sharing of programs between researchers.</p></li>
-<li><p>Many modules exist for specialized analyses in different fields, including ecology.</p></li>
-<li><p>Given the large community of users, it is easy to find help online.</p></li>
+<li><p>Functions and basic data types are designed for
+statistics.</p></li>
+<li><p>Free access to the software facilitates the sharing of programs
+between researchers.</p></li>
+<li><p>Many modules exist for specialized analyses in different fields,
+including ecology.</p></li>
+<li><p>Given the large community of users, it is easy to find help
+online.</p></li>
 </ul>
 </div>
 <div id="rstudio" class="section level2">
 <h2>RStudio</h2>
 <ul>
-<li><p>The RStudio software is a programming environment (<em>IDE</em>) with several features that simplify the interactive use of the R language.</p></li>
-<li><p>By default, the RStudio window is divided into 4 sections. We will first use the <em>console</em> (lower left corner).</p></li>
+<li><p>The RStudio software is a programming environment (<em>IDE</em>)
+with several features that simplify the interactive use of the R
+language.</p></li>
+<li><p>By default, the RStudio window is divided into 4 sections. We
+will first use the <em>console</em> (lower left corner).</p></li>
 </ul>
 </div>
 </div>
@@ -300,7 +308,8 @@ div.tocify {
 <ul>
 <li><p>Discover the basic functions of the R language.</p></li>
 <li><p>Become familiar with the RStudio interface.</p></li>
-<li><p>Know the main data types (numeric, character, and logical values) and data structures (vector, list, matrix, data frame) in R.</p></li>
+<li><p>Know the main data types (numeric, character, and logical values)
+and data structures (vector, list, matrix, data frame) in R.</p></li>
 <li><p>Load a data frame from an external file.</p></li>
 <li><p>Subset a data structure.</p></li>
 <li><p>Write your own functions.</p></li>
@@ -310,31 +319,43 @@ div.tocify {
 <h1>Basic operations in R</h1>
 <div id="r-as-a-calculator" class="section level2">
 <h2>R as a calculator</h2>
-<p>The <code>&gt;</code> symbol in the console indicates that R is ready to receive a command. R includes basic arithmetic operations: <code>+</code>, <code>-</code>,<code>*</code>,<code>/</code>and<code>^</code>(power).</p>
+<p>The <code>&gt;</code> symbol in the console indicates that R is ready
+to receive a command. R includes basic arithmetic operations:
+<code>+</code>,
+<code>-</code>,<code>*</code>,<code>/</code>and<code>^</code>(power).</p>
 <pre class="r"><code>(4 + 3) * 2</code></pre>
 <pre><code>## [1] 14</code></pre>
 <pre class="r"><code>5 ^ 3</code></pre>
 <pre><code>## [1] 125</code></pre>
 <blockquote>
-<p><strong>Question</strong>: Why is the result preceded by <code>[1]</code>?</p>
-<p><strong>Answer</strong>: R indicates that this is the first element of the result. In this case, there is only one element.</p>
+<p><strong>Question</strong>: Why is the result preceded by
+<code>[1]</code>?</p>
+<p><strong>Answer</strong>: R indicates that this is the first element
+of the result. In this case, there is only one element.</p>
 </blockquote>
 </div>
 <div id="comparison-operators" class="section level2">
 <h2>Comparison operators</h2>
-<p>We use <code>==</code> to check if two expressions are equal and <code>!=</code> to see if they are different. R also recognizes the comparisons <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code> and <code>&gt;=</code>.</p>
+<p>We use <code>==</code> to check if two expressions are equal and
+<code>!=</code> to see if they are different. R also recognizes the
+comparisons <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code> and
+<code>&gt;=</code>.</p>
 <pre class="r"><code>(4 + 3) * 2 != 4 + (3 * 2)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="mathematical-functions" class="section level2">
 <h2>Mathematical functions</h2>
-<p>Several mathematical functions are defined in R, such as <code>exp</code>,<code>log</code>, <code>sqrt</code> (square root), as well as trigonometric functions and constants like <code>pi</code>.</p>
+<p>Several mathematical functions are defined in R, such as
+<code>exp</code>,<code>log</code>, <code>sqrt</code> (square root), as
+well as trigonometric functions and constants like <code>pi</code>.</p>
 <pre class="r"><code>cos(pi)</code></pre>
 <pre><code>## [1] -1</code></pre>
 </div>
 <div id="return1" class="section level2">
 <h2>Exercise 1</h2>
-<p>After replacing <span class="math inline">\(x\)</span> with a number of your choice, transcribe the following proposition in R and check that it returns TRUE:</p>
+<p>After replacing <span class="math inline">\(x\)</span> with a number
+of your choice, transcribe the following proposition in R and check that
+it returns TRUE:</p>
 <p><span class="math display">\[(\sin x)^2 + (\cos x)^2 = 1\]</span></p>
 <p><a href="#sol1">Solution</a></p>
 </div>
@@ -342,59 +363,95 @@ div.tocify {
 <h2>Calling functions</h2>
 <p>Note that parentheses <code>()</code> play two roles in R:</p>
 <ul>
-<li>They delimit parts of a mathematical expression (e.g. <code>(4 + 3) * 2</code>).</li>
-<li>They follow the name of a function and contain the <em>arguments</em> of that function. If there are multiple arguments, they are separated by commas.</li>
+<li>They delimit parts of a mathematical expression
+(e.g. <code>(4 + 3) * 2</code>).</li>
+<li>They follow the name of a function and contain the
+<em>arguments</em> of that function. If there are multiple arguments,
+they are separated by commas.</li>
 </ul>
-<p>For example, the <code>seq(a, b)</code> function creates a sequence of integers between <code>a</code> and<code>b</code>:</p>
+<p>For example, the <code>seq(a, b)</code> function creates a sequence
+of integers between <code>a</code> and<code>b</code>:</p>
 <pre class="r"><code>seq(1, 50)</code></pre>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 ## [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50</code></pre>
 </div>
 <div id="create-a-variable" class="section level2">
 <h2>Create a variable</h2>
-<p>The <code>&lt;-</code> operator is used to assign the value of an expression to a variable. If the variable does not exist, it is created by R at this time.</p>
+<p>The <code>&lt;-</code> operator is used to assign the value of an
+expression to a variable. If the variable does not exist, it is created
+by R at this time.</p>
 <pre class="r"><code>x &lt;- 5:10</code></pre>
-<p>Note that the <code>:</code> operator is a shortcut for the <code>seq(5, 10)</code> statement.</p>
+<p>Note that the <code>:</code> operator is a shortcut for the
+<code>seq(5, 10)</code> statement.</p>
 <blockquote>
-<p><strong>Tip</strong>: To save some time in RStudio, the keyboard shortcut <code>Alt</code> + <code>-</code> produces the <code>&lt;-</code> operator.</p>
+<p><strong>Tip</strong>: To save some time in RStudio, the keyboard
+shortcut <code>Alt</code> + <code>-</code> produces the
+<code>&lt;-</code> operator.</p>
 </blockquote>
 <p>To find the value of a variable, just enter its name:</p>
 <pre class="r"><code>x</code></pre>
 <pre><code>## [1]  5  6  7  8  9 10</code></pre>
-<p>Also note that the <code>x</code> variable appeared in the <em>Environment</em> tab (upper right corner) in RStudio. This tab allows you to quickly consult all variables currently in memory.</p>
+<p>Also note that the <code>x</code> variable appeared in the
+<em>Environment</em> tab (upper right corner) in RStudio. This tab
+allows you to quickly consult all variables currently in memory.</p>
 </div>
 <div id="rules-for-naming-objects-in-r" class="section level2">
 <h2>Rules for naming objects in R</h2>
-<p>In R, the name of an object recognized by the software (variable, function, etc.) must begin with a letter and may include letters, numbers, or the characters <code>_</code> and <code>.</code>. Note that R is case-sensitive.</p>
+<p>In R, the name of an object recognized by the software (variable,
+function, etc.) must begin with a letter and may include letters,
+numbers, or the characters <code>_</code> and <code>.</code>. Note that
+R is case-sensitive.</p>
 <pre class="r"><code>X</code></pre>
-<pre><code>## Error in eval(expr, envir, enclos): objet &#39;X&#39; introuvable</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;X&#39; not found</code></pre>
 <blockquote>
 <p><strong>Tips</strong>:</p>
 <ul>
-<li><p>To make the code more readable, object names must (while still being brief) provide information about their contents. For example, <code>diametre</code> or<code>diam</code> rather than <code>d</code> or<code>x</code>.</p></li>
-<li><p>It is better to adopt a uniform style for object names. We recommend using only lowercase letters and separating compound names with <code>_</code>, e.g. <code>temp_min</code> for minimum temperature.</p></li>
+<li><p>To make the code more readable, object names must (while still
+being brief) provide information about their contents. For example,
+<code>diametre</code> or<code>diam</code> rather than <code>d</code>
+or<code>x</code>.</p></li>
+<li><p>It is better to adopt a uniform style for object names. We
+recommend using only lowercase letters and separating compound names
+with <code>_</code>, e.g. <code>temp_min</code> for minimum
+temperature.</p></li>
 </ul>
 </blockquote>
 </div>
 <div id="character-strings" class="section level2">
 <h2>Character strings</h2>
-<p>To represent textual data, we use strings of characters, which must be enclosed in quotation marks to differentiate them from the commands and objects of the code.</p>
+<p>To represent textual data, we use strings of characters, which must
+be enclosed in quotation marks to differentiate them from the commands
+and objects of the code.</p>
 <pre class="r"><code>s &lt;- &quot;text&quot;</code></pre>
 <blockquote>
-<p><strong>Note</strong>: Single quotation marks (’) are also accepted by R, but we will only use double quotation marks for consistency.</p>
+<p><strong>Note</strong>: Single quotation marks (’) are also accepted
+by R, but we will only use double quotation marks for consistency.</p>
 </blockquote>
 </div>
 <div id="get-help" class="section level2">
 <h2>Get help</h2>
-<p>The documentation of a function can be found by preceding its name with a question mark, e.g. <code>?seq</code>. In RStudio, the help page appears on the <em>Help</em> tab (lower right corner). If you do not know the exact name of the function, use two question marks, e.g. <code>??logarithm</code>. You can also write directly in the search window of the <em>Help</em> tab.</p>
-<p>Many websites offer information about R. Often, the fastest way to get help for a specific problem is to write your question in a search engine.</p>
+<p>The documentation of a function can be found by preceding its name
+with a question mark, e.g. <code>?seq</code>. In RStudio, the help page
+appears on the <em>Help</em> tab (lower right corner). If you do not
+know the exact name of the function, use two question marks,
+e.g. <code>??logarithm</code>. You can also write directly in the search
+window of the <em>Help</em> tab.</p>
+<p>Many websites offer information about R. Often, the fastest way to
+get help for a specific problem is to write your question in a search
+engine.</p>
 </div>
 </div>
 <div id="vectors-and-data-types" class="section level1">
 <h1>Vectors and data types</h1>
 <div id="vector-properties" class="section level2">
 <h2>Vector properties</h2>
-<p>The variable <code>x</code> that we created earlier is a vector with 6 elements (the numbers 5 to 10). The vector is the simplest data structure in R; a variable comprising a single element is in fact a vector of length 1. All the elements of a vector must be of the same type of data. We can determine the length of a vector with the function <code>length</code>, and its type with the<code>class</code> function.</p>
+<p>The variable <code>x</code> that we created earlier is a vector with
+6 elements (the numbers 5 to 10). The vector is the simplest data
+structure in R; a variable comprising a single element is in fact a
+vector of length 1. All the elements of a vector must be of the same
+type of data. We can determine the length of a vector with the function
+<code>length</code>, and its type with the<code>class</code>
+function.</p>
 <pre class="r"><code>length(x)</code></pre>
 <pre><code>## [1] 6</code></pre>
 <pre class="r"><code>class(x)</code></pre>
@@ -402,77 +459,108 @@ div.tocify {
 </div>
 <div id="editor-in-rstudio" class="section level2">
 <h2>Editor in RStudio</h2>
-<p>Until now, we have entered commands directly into the console. To save a list of commands, which will eventually become an analysis script, we will use the editor in RStudio (upper left corner).</p>
+<p>Until now, we have entered commands directly into the console. To
+save a list of commands, which will eventually become an analysis
+script, we will use the editor in RStudio (upper left corner).</p>
 <blockquote>
-<p><strong>Note</strong>: When you open a new session on RStudio, an empty script should appear in the editor. If not, go to <em>File -&gt; New File -&gt; R Script</em> to create a new script.</p>
+<p><strong>Note</strong>: When you open a new session on RStudio, an
+empty script should appear in the editor. If not, go to <em>File -&gt;
+New File -&gt; R Script</em> to create a new script.</p>
 </blockquote>
 </div>
 <div id="create-a-vector" class="section level2">
 <h2>Create a vector</h2>
-<p>The <code>c</code> function combines several values into a vector.</p>
-<p>Enter the following commands in the editor, then execute them with the <em>Run</em> button (top right of the editor) or with the keyboard shortcut <code>Ctrl</code> + <code>Enter</code>. In both cases, the cursor must be placed on the line to be executed. You can also select a block of lines to execute at once.</p>
+<p>The <code>c</code> function combines several values into a
+vector.</p>
+<p>Enter the following commands in the editor, then execute them with
+the <em>Run</em> button (top right of the editor) or with the keyboard
+shortcut <code>Ctrl</code> + <code>Enter</code>. In both cases, the
+cursor must be placed on the line to be executed. You can also select a
+block of lines to execute at once.</p>
 <pre class="r"><code># Diameter in cm and species of three trees
 diam &lt;- c (7.5, 3, 1.4)
 species &lt;- c (&quot;fir&quot;, &quot;pine&quot;, &quot;birch&quot;)</code></pre>
 <div id="comment-lines" class="section level3">
 <h3>Comment lines</h3>
-<p>Lines starting with <code>#</code> are never executed by R. These are comments that add context and clarify the purpose of a section of the code.</p>
+<p>Lines starting with <code>#</code> are never executed by R. These are
+comments that add context and clarify the purpose of a section of the
+code.</p>
 </div>
 </div>
 <div id="return2" class="section level2">
 <h2>Exercise 2</h2>
 <ol style="list-style-type: decimal">
-<li><p>What is the data type of the vector <code>species</code>?</p></li>
-<li><p>What happens if you try to create a vector with different types of data, e.g.: <code>c (1, 2, "pine")</code>?</p></li>
+<li><p>What is the data type of the vector
+<code>species</code>?</p></li>
+<li><p>What happens if you try to create a vector with different types
+of data, e.g.: <code>c (1, 2, "pine")</code>?</p></li>
 </ol>
 <p><a href="#sol2">Solution</a></p>
 </div>
 <div id="vector-operations" class="section level2">
 <h2>Vector operations</h2>
-<p>In R, basic mathematical operations are vectorized, that is, they apply separately to each element of a vector.</p>
+<p>In R, basic mathematical operations are vectorized, that is, they
+apply separately to each element of a vector.</p>
 <pre class="r"><code>v &lt;- c(1, 4, 9)
 sqrt(v)</code></pre>
 <pre><code>## [1] 1 2 3</code></pre>
 <pre class="r"><code>v + c(10, 20, 30)</code></pre>
 <pre><code>## [1] 11 24 39</code></pre>
-<p>If the two vectors do not have the same number of elements, the shortest vector is “recycled”; this is especially useful for operations involving a vector and a single value.</p>
+<p>If the two vectors do not have the same number of elements, the
+shortest vector is “recycled”; this is especially useful for operations
+involving a vector and a single value.</p>
 <pre class="r"><code>diam10 &lt;- diam * 10
 diam10</code></pre>
 <pre><code>## [1] 75 30 14</code></pre>
 <pre class="r"><code>esp_pin &lt;- species == &quot;pine&quot;
 esp_pin</code></pre>
 <pre><code>## [1] FALSE  TRUE FALSE</code></pre>
-<p>Note that the <code>esp_pin</code> variable is of logical type (true / false).</p>
+<p>Note that the <code>esp_pin</code> variable is of logical type (true
+/ false).</p>
 </div>
 <div id="summary-of-basic-data-types" class="section level2">
 <h2>Summary of basic data types</h2>
 <ul>
 <li><code>integer</code></li>
-<li><code>numeric</code> (real numbers, also called<code>double</code>)</li>
+<li><code>numeric</code> (real numbers, also
+called<code>double</code>)</li>
 <li><code>character</code> (strings)</li>
-<li><code>logical</code> (possible values<code>TRUE</code> or <code>FALSE</code>, always in uppercase letters)</li>
+<li><code>logical</code> (possible values<code>TRUE</code> or
+<code>FALSE</code>, always in uppercase letters)</li>
 </ul>
 </div>
 </div>
 <div id="data-frames" class="section level1">
 <h1>Data frames</h1>
-<p>A data frame is a two-dimensional data structure formed by combining vectors of the same size. It is used to represent a series of observations (rows) of the same set of variables (columns).</p>
+<p>A data frame is a two-dimensional data structure formed by combining
+vectors of the same size. It is used to represent a series of
+observations (rows) of the same set of variables (columns).</p>
 <pre class="r"><code>trees &lt;- data.frame(species, diam)
 trees</code></pre>
 <pre><code>##   species diam
 ## 1     fir  7.5
 ## 2    pine  3.0
 ## 3   birch  1.4</code></pre>
-<p>The <code>str()</code> function provides more details about the structure of an object.</p>
+<p>The <code>str()</code> function provides more details about the
+structure of an object.</p>
 <pre class="r"><code>str(trees)</code></pre>
 <pre><code>## &#39;data.frame&#39;:    3 obs. of  2 variables:
 ##  $ species: chr  &quot;fir&quot; &quot;pine&quot; &quot;birch&quot;
 ##  $ diam   : num  7.5 3 1.4</code></pre>
 <div id="load-a-data-frame-from-a-file" class="section level2">
 <h2>Load a data frame from a file</h2>
-<p>Most of the time, we want to load tables of existing data rather than create them in R. We will see here how to import data saved in CSV format (comma-separated values).</p>
-<p>First, make sure that R points to the right working directory. In the <em>Files</em> tab (lower right corner of RStudio), use the “…” button on the right to navigate to the directory containing the data file <code>cours1_kejimkujik.csv</code>, then click on <em>More -&gt; Set As Working Directory</em>. (You can also call the <code>setwd</code> function in R with a path to the directory.) The current working directory is displayed on the line at the top of the console.</p>
-<p>Next, call the <code>read.csv</code> function to load tree inventory data from plots in the Kejimkujik National Park, Nova Scotia:</p>
+<p>Most of the time, we want to load tables of existing data rather than
+create them in R. We will see here how to import data saved in CSV
+format (comma-separated values).</p>
+<p>First, make sure that R points to the right working directory. In the
+<em>Files</em> tab (lower right corner of RStudio), use the “…” button
+on the right to navigate to the directory containing the data file
+<code>cours1_kejimkujik.csv</code>, then click on <em>More -&gt; Set As
+Working Directory</em>. (You can also call the <code>setwd</code>
+function in R with a path to the directory.) The current working
+directory is displayed on the line at the top of the console.</p>
+<p>Next, call the <code>read.csv</code> function to load tree inventory
+data from plots in the Kejimkujik National Park, Nova Scotia:</p>
 <pre class="r"><code>kejim &lt;- read.csv(&quot;cours1_kejimkujik.csv&quot;)
 str(kejim)</code></pre>
 <pre><code>## &#39;data.frame&#39;:    1161 obs. of  9 variables:
@@ -487,15 +575,23 @@ str(kejim)</code></pre>
 ##  $ dhp      : num  16.3 24 29.8 29 15.5 32 11.3 44.8 17.2 70.5 ...</code></pre>
 <blockquote>
 <p><strong>Tips</strong></p>
-<p>The <em>Tab</em> key gives access to several types of help in RStudio, depending on the context. For example, we can get:</p>
+<p>The <em>Tab</em> key gives access to several types of help in
+RStudio, depending on the context. For example, we can get:</p>
 <ul>
-<li>a list of functions beginning with a combination of letters already entered;</li>
-<li>the possible arguments for the function (if the cursor is between the parentheses);</li>
-<li>the list of files in the working directory (if the cursor is enclosed in quotation marks).</li>
+<li>a list of functions beginning with a combination of letters already
+entered;</li>
+<li>the possible arguments for the function (if the cursor is between
+the parentheses);</li>
+<li>the list of files in the working directory (if the cursor is
+enclosed in quotation marks).</li>
 </ul>
-<p>The French version of software like Excel uses the comma as a decimal sign, and produces CSV files with the semicolon as a field separator. For this type of file, replace <code>read.csv</code> with<code>read.csv2</code>.</p>
+<p>The French version of software like Excel uses the comma as a decimal
+sign, and produces CSV files with the semicolon as a field separator.
+For this type of file, replace <code>read.csv</code>
+with<code>read.csv2</code>.</p>
 </blockquote>
-<p>The <code>head</code> function shows the first rows (by default, the first 6) of a data frame.</p>
+<p>The <code>head</code> function shows the first rows (by default, the
+first 6) of a data frame.</p>
 <pre class="r"><code>head(kejim)</code></pre>
 <pre><code>##   site parcelle jour mois annee num_arbre nb_tiges espece  dhp
 ## 1   BD        A   31    8  2004         1        1   TSCA 16.3
@@ -504,35 +600,49 @@ str(kejim)</code></pre>
 ## 4   BD        A   31    8  2004         7        1   ACRU 29.0
 ## 5   BD        A   31    8  2004         8        1   TSCA 15.5
 ## 6   BD        A   31    8  2004         9        1   TSCA 32.0</code></pre>
-<p>The <code>dim</code> function gives the dimensions (rows, columns) of the data frame. These dimensions can also be obtained separately with <code>nrow</code> and<code>ncol</code>.</p>
+<p>The <code>dim</code> function gives the dimensions (rows, columns) of
+the data frame. These dimensions can also be obtained separately with
+<code>nrow</code> and<code>ncol</code>.</p>
 <pre class="r"><code>dim(kejim)</code></pre>
 <pre><code>## [1] 1161    9</code></pre>
 </div>
 </div>
-<div id="select-elements-of-a-vector-or-a-data-frame" class="section level1">
+<div id="select-elements-of-a-vector-or-a-data-frame"
+class="section level1">
 <h1>Select elements of a vector or a data frame</h1>
 <div id="extract-a-variable-from-a-data-frame" class="section level2">
 <h2>Extract a variable from a data frame</h2>
-<p>In R, the <code>$</code> operator allows to extract a part of a complex object, and in particular, to extract a variable (column) from a data frame.</p>
+<p>In R, the <code>$</code> operator allows to extract a part of a
+complex object, and in particular, to extract a variable (column) from a
+data frame.</p>
 <pre class="r"><code>dhp &lt;- kejim$dhp</code></pre>
 <p>Here, the result <code>dhp</code> is a numeric vector.</p>
 </div>
 <div id="extract-elements-from-a-vector" class="section level2">
 <h2>Extract elements from a vector</h2>
-<p>To extract certain elements of a vector according to their position, we use the brackets (<code>[]</code>):</p>
+<p>To extract certain elements of a vector according to their position,
+we use the brackets (<code>[]</code>):</p>
 <pre class="r"><code>dhp[2]</code></pre>
 <pre><code>## [1] 24</code></pre>
 <pre class="r"><code>dhp5 &lt;- dhp[1:5]
 dhp5</code></pre>
 <pre><code>## [1] 16.3 24.0 29.8 29.0 15.5</code></pre>
-<p>In the second case, we gave a vector of indices to extract the first 5 values of <code>dhp</code>.</p>
-<p>With negative integers, we can exclude values based on their position:</p>
+<p>In the second case, we gave a vector of indices to extract the first
+5 values of <code>dhp</code>.</p>
+<p>With negative integers, we can exclude values based on their
+position:</p>
 <pre class="r"><code>dhp5[-2]</code></pre>
 <pre><code>## [1] 16.3 29.8 29.0 15.5</code></pre>
-<p>Finally, it is possible to select values according to a logical condition. In the statement below, R determines the positions of the <em>TRUE</em> values in the <code>dhp5 &gt; 20</code> logical vector, and then extracts the values of <code>dhp5</code> corresponding to those positions:</p>
+<p>Finally, it is possible to select values according to a logical
+condition. In the statement below, R determines the positions of the
+<em>TRUE</em> values in the <code>dhp5 &gt; 20</code> logical vector,
+and then extracts the values of <code>dhp5</code> corresponding to those
+positions:</p>
 <pre class="r"><code>dhp5[dhp5 &gt; 20]</code></pre>
 <pre><code>## [1] 24.0 29.8 29.0</code></pre>
-<p>To replace specific elements in a vector (or in a data frame column), we combine selection and assignment. The code below replaces the DHP values smaller than 1 with the value 1.</p>
+<p>To replace specific elements in a vector (or in a data frame column),
+we combine selection and assignment. The code below replaces the DHP
+values smaller than 1 with the value 1.</p>
 <pre class="r"><code>dhp[dhp &lt; 1] &lt;- 1</code></pre>
 </div>
 <div id="return3" class="section level2">
@@ -542,13 +652,16 @@ dhp5</code></pre>
 </ol>
 <pre class="r"><code>esp_dhp50 &lt;- kejim$espece[kejim$dhp &gt; 50]</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Create a vector with DHP measurements for all trees with more than one stem (<em>nb_tiges</em> variable).</li>
+<li>Create a vector with DHP measurements for all trees with more than
+one stem (<em>nb_tiges</em> variable).</li>
 </ol>
 <p><a href="#sol3">Solution</a></p>
 </div>
 <div id="extract-a-section-from-a-data-frame" class="section level2">
 <h2>Extract a section from a data frame</h2>
-<p>You can also use the <code>[]</code> notation to extract part of a data frame. In this case, the subsets of rows and columns are separated by a comma:</p>
+<p>You can also use the <code>[]</code> notation to extract part of a
+data frame. In this case, the subsets of rows and columns are separated
+by a comma:</p>
 <pre class="r"><code>kejim[1:5, 6:9]</code></pre>
 <pre><code>##   num_arbre nb_tiges espece  dhp
 ## 1         1        1   TSCA 16.3
@@ -565,14 +678,19 @@ str(kejim2)</code></pre>
 ##  $ dhp      : num  16.3 24 29.8 29 15.5 32 11.3 44.8 17.2 70.5 ...</code></pre>
 <p><strong>Note</strong>:</p>
 <ul>
-<li><p>The absence of information before the comma means that we want to keep all the rows.</p></li>
-<li><p>The names of columns are in quotation marks here, unlike when you extract a single column with <code>$</code>.</p></li>
+<li><p>The absence of information before the comma means that we want to
+keep all the rows.</p></li>
+<li><p>The names of columns are in quotation marks here, unlike when you
+extract a single column with <code>$</code>.</p></li>
 </ul>
 </div>
 </div>
 <div id="base-graphics" class="section level1">
 <h1>Base graphics</h1>
-<p>R contains some basic functions to visualize data. In the example below, the <code>plot</code> function displays the values in a vector in order of their position (index), and the <code>hist</code> function shows a histogram of these values.</p>
+<p>R contains some basic functions to visualize data. In the example
+below, the <code>plot</code> function displays the values in a vector in
+order of their position (index), and the <code>hist</code> function
+shows a histogram of these values.</p>
 <pre class="r"><code>plot(kejim$dhp)
 plot(kejim$dhp)</code></pre>
 <p><img src="1E-IntroR_part1_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
@@ -581,14 +699,17 @@ plot(kejim$dhp)</code></pre>
 <h1>Other data structures</h1>
 <div id="matrix" class="section level2">
 <h2>Matrix</h2>
-<p>A matrix is a two-dimensional data structure where all elements have the same type. It can be created with the <code>matrix</code> function.</p>
+<p>A matrix is a two-dimensional data structure where all elements have
+the same type. It can be created with the <code>matrix</code>
+function.</p>
 <pre class="r"><code>mat1 &lt;- matrix(1:12, nrow = 3)
 mat1</code></pre>
 <pre><code>##      [,1] [,2] [,3] [,4]
 ## [1,]    1    4    7   10
 ## [2,]    2    5    8   11
 ## [3,]    3    6    9   12</code></pre>
-<p>As for a data frame, we extract the elements of a matrix by specifying two vectors of indices:</p>
+<p>As for a data frame, we extract the elements of a matrix by
+specifying two vectors of indices:</p>
 <pre class="r"><code>mat1[2, 3]</code></pre>
 <pre><code>## [1] 8</code></pre>
 <pre class="r"><code>mat1[1:2, 2:3]</code></pre>
@@ -598,7 +719,9 @@ mat1</code></pre>
 </div>
 <div id="list" class="section level2">
 <h2>List</h2>
-<p>Unlike a vector, a list can contain objects of different types. We create a list with the <code>list</code> function and we extract individual elements using double brackets<code>[[ ]]</code>.</p>
+<p>Unlike a vector, a list can contain objects of different types. We
+create a list with the <code>list</code> function and we extract
+individual elements using double brackets<code>[[ ]]</code>.</p>
 <pre class="r"><code>list1 &lt;- list(1, 2, &quot;ab&quot;)
 list1</code></pre>
 <pre><code>## [[1]]
@@ -621,7 +744,10 @@ str(list2)</code></pre>
 ##   ..$ : num 1
 ##   ..$ : num 2
 ##   ..$ : chr &quot;ab&quot;</code></pre>
-<p>We will not discuss these structures in more detail for the moment. In summary, the four data structures we have seen are differentiated according to whether they have 1 or 2 dimensions and whether they contain elements of the same type or of different types.</p>
+<p>We will not discuss these structures in more detail for the moment.
+In summary, the four data structures we have seen are differentiated
+according to whether they have 1 or 2 dimensions and whether they
+contain elements of the same type or of different types.</p>
 <table>
 <thead>
 <tr class="header">
@@ -658,19 +784,22 @@ str(list2)</code></pre>
 <pre class="r"><code>sum(kejim$nb_tiges)</code></pre>
 <pre><code>## [1] 1190</code></pre>
 <ul>
-<li><code>summary</code>: Returns the minimum, maximum, average and quartiles of a numeric variable.</li>
+<li><code>summary</code>: Returns the minimum, maximum, average and
+quartiles of a numeric variable.</li>
 </ul>
 <pre class="r"><code>summary(kejim$dhp)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##    8.80   13.00   18.40   21.76   26.50   84.10</code></pre>
 <ul>
-<li><code>table</code>: Counts the number of occurrences of each value of a vector (useful for categorical or discrete values).</li>
+<li><code>table</code>: Counts the number of occurrences of each value
+of a vector (useful for categorical or discrete values).</li>
 </ul>
 <pre class="r"><code>table(kejim$espece)</code></pre>
 <pre><code>## 
 ## ABBA ACPE ACRU BEAL BECO BEPA FAGR PIRU PIST POGR POTR QURU TSCA 
 ##   27    4  246    9   18  117   39  109  131   45    3   64  349</code></pre>
-<p>With two or more vectors, <code>table</code> creates a contingency table:</p>
+<p>With two or more vectors, <code>table</code> creates a contingency
+table:</p>
 <pre class="r"><code>table(kejim$espece, kejim$site)</code></pre>
 <pre><code>##       
 ##         BD CFR  CL CLT NCL  PL
@@ -687,20 +816,31 @@ str(list2)</code></pre>
 ##   POTR   0   0   0   3   0   0
 ##   QURU   0   3   0  26   0  35
 ##   TSCA  90  36   0   0 165  58</code></pre>
-<p>There are also several functions for calculating different statistics from a data vector: <code>mean</code>,<code>median</code> <code>min</code>,<code>max</code>, <code>sd</code> (standard deviation).</p>
+<p>There are also several functions for calculating different statistics
+from a data vector: <code>mean</code>,<code>median</code>
+<code>min</code>,<code>max</code>, <code>sd</code> (standard
+deviation).</p>
 <div id="return4" class="section level2">
 <h2>Exercise 4</h2>
-<p>In R, the logical values <em>TRUE</em> and <em>FALSE</em> correspond to numerical values 1 and 0, respectively.</p>
+<p>In R, the logical values <em>TRUE</em> and <em>FALSE</em> correspond
+to numerical values 1 and 0, respectively.</p>
 <ol style="list-style-type: decimal">
-<li><p>How do you interpret the result of <code>sum(c(FALSE, TRUE, TRUE))</code>?</p></li>
-<li><p>How can you use the <code>sum</code> function to determine the number of red maples (species code “ACRU”) in the <code>kejim</code> data?</p></li>
+<li><p>How do you interpret the result of
+<code>sum(c(FALSE, TRUE, TRUE))</code>?</p></li>
+<li><p>How can you use the <code>sum</code> function to determine the
+number of red maples (species code “ACRU”) in the <code>kejim</code>
+data?</p></li>
 </ol>
 <p><a href="#sol4">Solution</a></p>
 </div>
 </div>
 <div id="missing-values" class="section level1">
 <h1>Missing values</h1>
-<p>To represent missing data, R uses the <code>NA</code> symbol (in uppercase and without quotation marks). Generally, the result of any calculation involving a <code>NA</code> value is also <code>NA</code>. Some functions like <code>sum</code> and<code>mean</code> have a <code>na.rm</code> argument to ignore missing values.</p>
+<p>To represent missing data, R uses the <code>NA</code> symbol (in
+uppercase and without quotation marks). Generally, the result of any
+calculation involving a <code>NA</code> value is also <code>NA</code>.
+Some functions like <code>sum</code> and<code>mean</code> have a
+<code>na.rm</code> argument to ignore missing values.</p>
 <pre class="r"><code>v_na &lt;- c (1, 2, 9, NA)
 mean(v_na)</code></pre>
 <pre><code>## [1] NA</code></pre>
@@ -709,23 +849,36 @@ mean(v_na)</code></pre>
 </div>
 <div id="write-your-own-functions" class="section level1">
 <h1>Write your own functions</h1>
-<p>As mentioned above, one of the advantages of a programming language like R is the ability to automate repetitive operations through functions. Thus, you can define your own functions, in order to create a “shortcut” to a sequence of simpler operations.</p>
+<p>As mentioned above, one of the advantages of a programming language
+like R is the ability to automate repetitive operations through
+functions. Thus, you can define your own functions, in order to create a
+“shortcut” to a sequence of simpler operations.</p>
 <p>Here is the basic structure of an R function:</p>
 <pre class="r"><code>name_of_function &lt;- function (argument1, argument2, ...) {
     # enter the function code here
 }</code></pre>
-<p>By default, the result of the function is that obtained by the last instruction of the function block (block delimited by the braces <code>{}</code>).</p>
-<p>As an example, we will create a <code>tree_type</code> function that will indicate whether a species found in the <code>kejim</code> dataset is a conifer or a broadleaf tree.</p>
+<p>By default, the result of the function is that obtained by the last
+instruction of the function block (block delimited by the braces
+<code>{}</code>).</p>
+<p>As an example, we will create a <code>tree_type</code> function that
+will indicate whether a species found in the <code>kejim</code> dataset
+is a conifer or a broadleaf tree.</p>
 <pre class="r"><code># Indicates whether the tree species is a conifer or broadleaf tree
 tree_type &lt;- function (species) {
     # code to write ...
 }</code></pre>
-<p>First, we need a vector of species codes corresponding to conifers. In this dataset, there are four: balsam fir (ABBA), red spruce (PIRU), white pine (PIST) and eastern hemlock (TSCA).</p>
+<p>First, we need a vector of species codes corresponding to conifers.
+In this dataset, there are four: balsam fir (ABBA), red spruce (PIRU),
+white pine (PIST) and eastern hemlock (TSCA).</p>
 <pre class="r"><code>codes_conif &lt;- c (&quot;ABBA&quot;, &quot;PIRU&quot;, &quot;PIST&quot;, &quot;TSCA&quot;)</code></pre>
-<p>Then we will use the <code>%in%</code> function included in R, which tests whether the elements of a vector are found in another vector. For example:</p>
+<p>Then we will use the <code>%in%</code> function included in R, which
+tests whether the elements of a vector are found in another vector. For
+example:</p>
 <pre class="r"><code>&quot;TSCA&quot; %in% codes_conif</code></pre>
 <pre><code>## [1] TRUE</code></pre>
-<p>Finally, we need to output a different result depending on the result of the logical test. This is used for the <code>if .. else ...</code> branch, which takes the following form:</p>
+<p>Finally, we need to output a different result depending on the result
+of the logical test. This is used for the <code>if .. else ...</code>
+branch, which takes the following form:</p>
 <pre class="r"><code>if (condition) {
     # code to execute if condition is true
 } else {
@@ -742,8 +895,13 @@ tree_type &lt;- function (species) {
     }
     type
 }</code></pre>
-<p>Note that the statements in a block of code (that of the function, as well as the blocks <code>if</code> and<code>else</code>) are indented (offset). An indentation of at least 4 characters is recommended to facilitate understanding of the logic of the code.</p>
-<p>The result of the function corresponds to that of the last instruction, so here it will be the content of the variable <code>type</code>.</p>
+<p>Note that the statements in a block of code (that of the function, as
+well as the blocks <code>if</code> and<code>else</code>) are indented
+(offset). An indentation of at least 4 characters is recommended to
+facilitate understanding of the logic of the code.</p>
+<p>The result of the function corresponds to that of the last
+instruction, so here it will be the content of the variable
+<code>type</code>.</p>
 <pre class="r"><code>tree_type(&quot;ACRU&quot;)</code></pre>
 <pre><code>## [1] &quot;broadleaf&quot;</code></pre>
 <pre class="r"><code>tree_type(&quot;PIST&quot;)</code></pre>
@@ -790,11 +948,13 @@ tree_type &lt;- function (species) {
 <td>Delimit a block of code (e.g. function)</td>
 </tr>
 <tr class="even">
-<td><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code></td>
+<td><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>,
+<code>^</code></td>
 <td>Arithmetic operators</td>
 </tr>
 <tr class="odd">
-<td><code>==</code>, <code>! =</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></td>
+<td><code>==</code>, <code>! =</code>, <code>&lt;</code>,
+<code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></td>
 <td>Comparison Operators</td>
 </tr>
 <tr class="even">
@@ -848,7 +1008,8 @@ tree_type &lt;- function (species) {
 </div>
 <div id="select-elements-of-an-object" class="section level2">
 <h2>Select elements of an object</h2>
-<p><em>Here, i, j, k and l are positive integers, while condition is an expression that returns TRUE or FALSE.</em></p>
+<p><em>Here, i, j, k and l are positive integers, while condition is an
+expression that returns TRUE or FALSE.</em></p>
 <table>
 <colgroup>
 <col width="17%" />
@@ -863,23 +1024,29 @@ tree_type &lt;- function (species) {
 <tbody>
 <tr class="odd">
 <td><code>v[c(i, j)]</code></td>
-<td>The elements of the vector <em>v</em> in position <em>i</em> and <em>j</em>.</td>
+<td>The elements of the vector <em>v</em> in position <em>i</em> and
+<em>j</em>.</td>
 </tr>
 <tr class="even">
 <td><code>v[-c(i, j)]</code></td>
-<td>The elements of <em>v</em> except those in position <em>i</em> and <em>j</em>.</td>
+<td>The elements of <em>v</em> except those in position <em>i</em> and
+<em>j</em>.</td>
 </tr>
 <tr class="odd">
 <td><code>v[condition]</code></td>
-<td>The elements of <em>v</em> for which <em>condition</em> is true.</td>
+<td>The elements of <em>v</em> for which <em>condition</em> is
+true.</td>
 </tr>
 <tr class="even">
 <td><code>df$name</code></td>
-<td>The vector corresponding to the column <em>name</em> of the table <em>df</em>.</td>
+<td>The vector corresponding to the column <em>name</em> of the table
+<em>df</em>.</td>
 </tr>
 <tr class="odd">
 <td><code>df[c(i, j), c(k, l)]</code></td>
-<td>The elements in one of the rows <em>i</em> or <em>j</em> and in one of the columns <em>k</em> or <em>l</em> of <em>df</em> (also works for a matrix).</td>
+<td>The elements in one of the rows <em>i</em> or <em>j</em> and in one
+of the columns <em>k</em> or <em>l</em> of <em>df</em> (also works for a
+matrix).</td>
 </tr>
 <tr class="even">
 <td><code>df[condition, ]</code></td>
@@ -887,7 +1054,8 @@ tree_type &lt;- function (species) {
 </tr>
 <tr class="odd">
 <td><code>df [i:j, c("name1", "name2")]</code></td>
-<td>The elements in columns <em>name1</em> and <em>name2</em> are in rows from <em>i</em> to <em>j</em>.</td>
+<td>The elements in columns <em>name1</em> and <em>name2</em> are in
+rows from <em>i</em> to <em>j</em>.</td>
 </tr>
 </tbody>
 </table>
@@ -895,7 +1063,12 @@ tree_type &lt;- function (species) {
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
-<p>The content of this part is based on an introductory course in R prepared by Marc Mazerolle (professor at U. Laval, formerly UQAT), as well as a workshop offered by the Socio-Environmental Synthesis Center (SESYNC) and available online at: <a href="https://cyberhelp.sesync.org/basic-R-lesson/" class="uri">https://cyberhelp.sesync.org/basic-R-lesson/</a>.</p>
+<p>The content of this part is based on an introductory course in R
+prepared by Marc Mazerolle (professor at U. Laval, formerly UQAT), as
+well as a workshop offered by the Socio-Environmental Synthesis Center
+(SESYNC) and available online at: <a
+href="https://cyberhelp.sesync.org/basic-R-lesson/"
+class="uri">https://cyberhelp.sesync.org/basic-R-lesson/</a>.</p>
 </div>
 <div id="exercise-solutions" class="section level1">
 <h1>Exercise solutions</h1>
@@ -912,13 +1085,16 @@ tree_type &lt;- function (species) {
 <pre><code>## [1] &quot;character&quot;</code></pre>
 <pre class="r"><code>c(1, 2, &quot;pine&quot;)</code></pre>
 <pre><code>## [1] &quot;1&quot;    &quot;2&quot;    &quot;pine&quot;</code></pre>
-<p>The vector <code>c(1, 2,"pine")</code> is of type <em>character</em> because numbers can be represented as text, but text cannot be represented as numbers.</p>
+<p>The vector <code>c(1, 2,"pine")</code> is of type <em>character</em>
+because numbers can be represented as text, but text cannot be
+represented as numbers.</p>
 <p><a href="#return2">Back</a></p>
 </div>
 <div id="sol3" class="section level2">
 <h2>Exercise 3</h2>
 <ol style="list-style-type: decimal">
-<li><p><code>esp_dhp50</code> is a vector of species corresponding to trees in <code>kejim</code> with DHP greater than 50 cm.</p></li>
+<li><p><code>esp_dhp50</code> is a vector of species corresponding to
+trees in <code>kejim</code> with DHP greater than 50 cm.</p></li>
 <li></li>
 </ol>
 <pre class="r"><code>dhp_multi_tige &lt;- kejim$dhp[kejim$nb_tiges &gt; 1]</code></pre>
@@ -927,7 +1103,8 @@ tree_type &lt;- function (species) {
 <div id="sol4" class="section level2">
 <h2>Exercise 4</h2>
 <ol style="list-style-type: decimal">
-<li><p>The sum of a logical vector is the number of true values.</p></li>
+<li><p>The sum of a logical vector is the number of true
+values.</p></li>
 <li></li>
 </ol>
 <pre class="r"><code>sum(kejim$espece == &quot;ACRU&quot;)</code></pre>
@@ -947,7 +1124,7 @@ tree_type &lt;- function (species) {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -965,7 +1142,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -974,6 +1151,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
@@ -986,7 +1166,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
