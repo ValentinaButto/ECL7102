@@ -1,13 +1,15 @@
 ---
 title: "Hypothesis tests on the mean"
-date: "September 22, 2021"
+date: "September 21, 2021"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 Answers for this lab must be submitted before **September 29th at 5pm on Moodle**. In your answer for each question, please include the R code used (if applicable) and the results obtained.
@@ -47,3 +49,8 @@ Eight plots were delimited in a forest and divided into two halves. In each plot
 a) What is the advantage of conducting the experiment in this manner rather than completely removing the dead leaves from four of the eight plots? What type of $t$ test is appropriate here to determine the effect of the treatment on the mean nitrogen concentration of the seedlings?
 
 b) Perform the $t$ test you selected and determine if the treatment has a significant effect at a significance threshold of $\alpha = 0.05$. What is the estimated mean effect (remember to interpret the sign of the difference) and its confidence interval?
+
+
+# References
+
+The content of this lecture is based on the course ECL7102 - Analyses et modélisation des données écologiques offered at UQAT during the fall 2021 session created by Philippe Marchand (formerly professor UQAT). The course content is available online at https://github.com/pmarchand1/ECL7102 

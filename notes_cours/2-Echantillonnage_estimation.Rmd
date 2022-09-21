@@ -1,13 +1,15 @@
 ---
 title: "Estimation, échantillonnage et expériences"
-date: "<br/>7 septembre 2021"
+date: "<br/>7 septembre 2022"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -477,3 +479,7 @@ En plus de l'échantillonnage aléatoire simple, il existe d'autres techniques q
 
 Dans l'élaboration d'un plan d'expérience, il est important d'assigner de façon aléatoire les traitements entre les unités expérimentales (ex.: individus ou sites). Il peut être avantageux de grouper les unités expérimentales plus semblables en blocs afin que tous les traitements soit représentés dans chaque bloc (avec assignation aléatoire à l'intérieur des blocs).
 
+
+# Références
+
+Le contenu de cette partie est basé sur le cours ECL7102 - Analyses et modélisation des données écologiques offert à l'UQAT lors de la session d'automne 2021 créé par Philippe Marchand (anciennement professo UQAT). Le contenu du cours est disponible en ligne à l'adresse suivante : https://github.com/pmarchand1/ECL7102

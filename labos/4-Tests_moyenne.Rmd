@@ -1,13 +1,15 @@
 ---
 title: "Tests d'hypothèses"
-date: "22 septembre 2021"
+date: "21 septembre 2021"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 Ce laboratoire doit être remis le **29 septembre à 17h sur Moodle**. Dans votre réponse pour chaque question, veuillez inclure le code R utilisé (s'il y a lieu) et les résultats obtenus.
@@ -48,3 +50,10 @@ Huit placettes (`plot`) ont été délimitées dans une forêt et divisées en d
 a) Quel est l'avantage d'avoir effectué l'expérience de cette façon plutôt que d'avoir enlevé complètement les feuilles mortes de quatre placettes sur huit? Quel type de test $t$ est approprié ici pour déterminer l'effet du traitement sur la concentration moyenne d'azote des semis?
 
 b) Effectuez le test $t$ choisi et déterminez si le traitement a un effet significatif à un seuil $\alpha = 0.05$. Quel est l'effet moyen estimé (n'oubliez pas d'interpréter le signe de la différence) et son intervalle de confiance?
+
+
+
+# Références
+
+Le contenu de cette partie est basé sur le cours ECL7102 - Analyses et modélisation des données écologiques offert à l'UQAT lors de la session d'automne 2021 créé par Philippe Marchand (anciennement professo UQAT). Le contenu du cours est disponible en ligne à l'adresse suivante : https://github.com/pmarchand1/ECL7102
+

@@ -617,3 +617,11 @@ sum(kejim$espece == "ACRU")
 ```
 
 [Back](#return4)
+
+
+
+# References
+
+The content of this lecture is based on the course ECL7102 - Analyses et modélisation des données écologiques offered at UQAT during the fall 2021 session created by Philippe Marchand (formerly professor UQAT). The course content is available online at https://github.com/pmarchand1/ECL7102 
+
+
