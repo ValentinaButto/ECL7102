@@ -1,6 +1,6 @@
 ---
 title: "Tests d'hypothèses"
-date: "21 septembre 2021"
+date: "22 septembre 2022"
 output:
   pdf_document:
     toc: yes

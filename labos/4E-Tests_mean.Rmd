@@ -1,6 +1,6 @@
 ---
 title: "Hypothesis tests on the mean"
-date: "September 21, 2021"
+date: "September 22, 2022"
 output:
   pdf_document:
     toc: yes
