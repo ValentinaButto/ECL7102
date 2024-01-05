@@ -1,6 +1,6 @@
 ---
 title: "Statistiques descriptives et représentations graphiques"
-date: "<br/>31 août 2022"
+date: "<br/>31 août 2023"
 output:
   pdf_document:
     toc: yes

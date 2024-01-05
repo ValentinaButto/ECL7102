@@ -1,13 +1,15 @@
 ---
 title: "Régression linéaire multiple"
-date: "<br/>12 octobre 2021"
+date: "<br/>7 octobre 2023"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}

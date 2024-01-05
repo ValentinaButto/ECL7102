@@ -1,13 +1,15 @@
 ---
 title: "Chi-squared test and ANOVA"
-date: "<br/>September 27, 2021"
+date: "<br/>September 27, 2023"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -427,3 +429,6 @@ Later this semester, we will focus on regression models. These are broader in sc
 |Categorical predictor | Chi-squared test     | $t$-test (2 categories) or ANOVA (more than 2 categories) |
 |Categorical or numerical predictor |  Logistic regression | Linear regression |
 
+# References
+
+The content of this lecture is based on the course ECL7102 - Analyses et modélisation des données écologiques offered at UQAT during the fall 2021 session created by Philippe Marchand (formerly professor UQAT). The course content is available online at https://github.com/pmarchand1/ECL7102 

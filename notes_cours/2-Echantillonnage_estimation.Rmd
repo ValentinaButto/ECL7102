@@ -1,6 +1,6 @@
 ---
 title: "Estimation, échantillonnage et expériences"
-date: "<br/>7 septembre 2022"
+date: "<br/>7 septembre 2023"
 output:
   pdf_document:
     toc: yes
