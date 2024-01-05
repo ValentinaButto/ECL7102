@@ -1,13 +1,15 @@
 ---
 title: "Régression de Poisson"
-date: "<br/>8 novembre 2021"
+date: "<br/>9 novembre 2023"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 

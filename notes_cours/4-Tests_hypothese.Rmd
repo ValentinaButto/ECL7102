@@ -1,13 +1,15 @@
 ---
 title: "Tests d'hypothèses"
-date: "<br/>20 septembre 2021"
+date: "<br/>21 septembre 2023"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -493,4 +495,8 @@ Si un test statistique démontre qu'un effet n'est pas dû au hasard de l'échan
 Par définition, un test d'hypothèse réalisé avec $\alpha$ = 0.05 va commettre une erreur de type I une fois sur 20. Ainsi, lorsqu'on effectue plusieurs tests dans une même étude, la probabilité qu'un des tests détecte un effet dû seulement au hasard de l'échantillonnage augmente. Nous verrons certaines solutions au problème des comparaisons multiples dans le prochain cours.
 
 Aussi, rappelons-nous qu'un taux d'erreur de type I de 5% n'est pas négligeable, surtout lorsqu'on considère le nombre d'études publiant des tests d'hypothèses à chaque année. La publication d'une étude montrant avec $p < 0.05$ ne signifie pas que l'hypothèse nulle est définitivement rejetée. De plus, comme nous l'avons vu plus haut, lorsque la puissance statistique est faible, les résultats qui dépassent le seuil de signification peuvent fortement surestimer l'effet réel. Il est donc prudent de faire preuve de scepticisme envers une étude montrant un effet plus grand que prévu si la taille de l'échantillon est faible. La réplication du résultat significatif sur un autre site est un bon moyen de confirmer l'existence d'un effet.
+
+# Références
+
+Le contenu de cette partie est basé sur le cours ECL7102 - Analyses et modélisation des données écologiques offert à l'UQAT lors de la session d'automne 2021 créé par Philippe Marchand (anciennement professo UQAT). Le contenu du cours est disponible en ligne à l'adresse suivante : https://github.com/pmarchand1/ECL7102
 

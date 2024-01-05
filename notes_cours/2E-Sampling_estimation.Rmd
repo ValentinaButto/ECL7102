@@ -1,13 +1,15 @@
 ---
 title: "Parameter estimation, sampling and experiment design"
-date: "<br/>September 7, 2021"
+date: "<br/>September 7, 2023"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -472,3 +474,9 @@ In addition to simple random sampling, there are other techniques that may be mo
 - adaptive sampling to estimate the abundance of a rare species.
 
 When designing an experiment, it is important to randomly assign treatments to the different experimental units (e.g. individuals or sites). It can be advantageous to group similar units into blocks so that all treatments are represented in each block (with random assignment within the blocks).
+
+
+
+# References
+
+The content of this lecture is based on the course ECL7102 - Analyses et modélisation des données écologiques offered at UQAT during the fall 2021 session created by Philippe Marchand (formerly professor UQAT). The course content is available online at https://github.com/pmarchand1/ECL7102 

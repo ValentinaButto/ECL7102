@@ -1,13 +1,15 @@
 ---
 title: "Régression logistique"
-date: "<br/>1 novembre 2021"
+date: "<br/> 9 Novembre 2023"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -381,4 +383,9 @@ Il existe des méthodes dites de réduction de biais qui pénalisent les coeffic
 - Dans une régression logistique, l'effet d'un prédicteur sur la réponse est non-linéaire et dépend de la valeur des autres prédicteurs. Il est donc utile de visualiser les prédictions du modèle pour différentes combinaisons des variables.
 
 - Pour une réponse binaire (0 ou 1), les résidus individuels donnent peu d'information, mais on peut vérifier l'ajustement du modèle à partir des moyennes de groupes de résidus (*binned residuals*).
+
+
+# Références
+
+Le contenu de cette partie est basé sur le cours ECL7102 - Analyses et modélisation des données écologiques offert à l'UQAT lors de la session d'automne 2021 créé par Philippe Marchand (anciennement professeur UQAT). Le contenu du cours est disponible en ligne à l'adresse suivante : https://github.com/pmarchand1/ECL7102
 

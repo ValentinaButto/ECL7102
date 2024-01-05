@@ -13,12 +13,22 @@
 
 <title>Statistiques descriptives et représentations graphiques</title>
 
-<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.15/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
 <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -26,12 +36,16 @@
 <link href="libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -44,32 +58,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 
 
@@ -79,10 +69,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -99,6 +85,12 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
@@ -111,7 +103,6 @@ summary {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -237,7 +228,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -248,12 +239,13 @@ div.tocify {
 
 
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
-<h1 class="title toc-ignore">Statistiques descriptives et représentations graphiques</h1>
-<h4 class="date"><br/>30 août 2021</h4>
+<h1 class="title toc-ignore">Statistiques descriptives et
+représentations graphiques</h1>
+<h4 class="date"><br/>31 août 2022</h4>
 
 </div>
 
@@ -261,53 +253,96 @@ div.tocify {
 <div id="objectifs" class="section level1">
 <h1>Objectifs</h1>
 <ul>
-<li><p>Décrire le rôle des statistiques dans la méthode scientifique.</p></li>
-<li><p>Connaître les types de données couramment utilisés en statistiques.</p></li>
-<li><p>Choisir des statistiques sommaires et des représentations graphiques appropriées pour différentes questions et différents types de données.</p></li>
+<li><p>Décrire le rôle des statistiques dans la méthode
+scientifique.</p></li>
+<li><p>Connaître les types de données couramment utilisés en
+statistiques.</p></li>
+<li><p>Choisir des statistiques sommaires et des représentations
+graphiques appropriées pour différentes questions et différents types de
+données.</p></li>
 </ul>
 </div>
 <div id="rôle-des-statistiques" class="section level1">
 <h1>Rôle des statistiques</h1>
-<div id="quels-types-de-questions-font-appel-aux-statistiques" class="section level2">
+<div id="quels-types-de-questions-font-appel-aux-statistiques"
+class="section level2">
 <h2>Quels types de questions font appel aux statistiques?</h2>
-<p>Les méthodes statistiques qui seront présentées dans ce cours sont utilisées dans l’ensemble des sciences naturelles et sociales. Il existe toutefois plusieurs raisons pour lesquelles ces méthodes occupent une place prépondérante dans certaines disciplines, comme l’écologie.</p>
+<p>Les méthodes statistiques qui seront présentées dans ce cours sont
+utilisées dans l’ensemble des sciences naturelles et sociales. Il existe
+toutefois plusieurs raisons pour lesquelles ces méthodes occupent une
+place prépondérante dans certaines disciplines, comme l’écologie.</p>
 <ul>
-<li><p>Nous étudions des systèmes complexes, composés de nombreux types d’entités ou d’individus qui interagissent. Un changement donné peut engendrer une chaîne d’effets, des boucles de rétroaction, etc. Isoler l’effet d’une variable représente donc un défi important.</p></li>
-<li><p>Les individus ne sont pas identiques mais varient à plusieurs niveaux.</p></li>
-<li><p>Notre capacité d’observation du système est limitée, tant pour le nombre de variables mesurées, que le nombre d’individus échantillonnées, ainsi que par la précision des observations elles-mêmes.</p></li>
+<li><p>Nous étudions des systèmes complexes, composés de nombreux types
+d’entités ou d’individus qui interagissent. Un changement donné peut
+engendrer une chaîne d’effets, des boucles de rétroaction, etc. Isoler
+l’effet d’une variable représente donc un défi important.</p></li>
+<li><p>Les individus ne sont pas identiques mais varient à plusieurs
+niveaux.</p></li>
+<li><p>Notre capacité d’observation du système est limitée, tant pour le
+nombre de variables mesurées, que le nombre d’individus échantillonnées,
+ainsi que par la précision des observations elles-mêmes.</p></li>
 </ul>
 </div>
 <div id="la-méthode-scientifique" class="section level2">
 <h2>La méthode scientifique</h2>
-<p>La méthode scientifique est souvent présentée par un diagramme comme celui ci-dessous. Sur la base d’observations passées, des chercheurs émettent une <em>hypothèse</em> sur le fonctionnement d’un système. De cette hypothèse, on déduit certaines <em>prédictions</em>, qui sont comparées au résultat d’une <em>expérience</em> conçue spécifiquement pour tester l’hypothèse. Le résultat mène soit au rejet de l’hypothèse, soit à son acceptation provisoire (jusqu’à ce qu’une hypothèse compétitrice soit proposée sur la base de nouvelles observations ou résultats d’expérience).</p>
+<p>La méthode scientifique est souvent présentée par un diagramme comme
+celui ci-dessous. Sur la base d’observations passées, des chercheurs
+émettent une <em>hypothèse</em> sur le fonctionnement d’un système. De
+cette hypothèse, on déduit certaines <em>prédictions</em>, qui sont
+comparées au résultat d’une <em>expérience</em> conçue spécifiquement
+pour tester l’hypothèse. Le résultat mène soit au rejet de l’hypothèse,
+soit à son acceptation provisoire (jusqu’à ce qu’une hypothèse
+compétitrice soit proposée sur la base de nouvelles observations ou
+résultats d’expérience).</p>
 <p><img src="../images/methode_sci.PNG" /></p>
-<p>En réalité, chaque étude scientifique ne suit pas ce schéma en entier. Différentes équipes peuvent réaliser les nouvelles observations, formuler de nouvelles théories ou hypothèses et concevoir les expériences visant à tester ces hypothèses. Pour certains systèmes, il n’est pas éthique ou pratique de réaliser des expériences contrôlées, donc les hypothèses doivent être testées à partir d’observations.</p>
-<p>Il existe aussi plusieurs questions d’intérêt scientifique qui ne sont pas des tests d’hypothèse. Par exemple:</p>
+<p>En réalité, chaque étude scientifique ne suit pas ce schéma en
+entier. Différentes équipes peuvent réaliser les nouvelles observations,
+formuler de nouvelles théories ou hypothèses et concevoir les
+expériences visant à tester ces hypothèses. Pour certains systèmes, il
+n’est pas éthique ou pratique de réaliser des expériences contrôlées,
+donc les hypothèses doivent être testées à partir d’observations.</p>
+<p>Il existe aussi plusieurs questions d’intérêt scientifique qui ne
+sont pas des tests d’hypothèse. Par exemple:</p>
 <ul>
-<li><p>Combien y a-t-il d’espèces d’oiseaux uniques à cette région?</p></li>
-<li><p>Quelle est l’aire de répartition du pin gris? Comment sera-t-elle modifiée par les changements climatiques au 21e siècle?</p></li>
+<li><p>Combien y a-t-il d’espèces d’oiseaux uniques à cette
+région?</p></li>
+<li><p>Quelle est l’aire de répartition du pin gris? Comment sera-t-elle
+modifiée par les changements climatiques au 21e siècle?</p></li>
 </ul>
 </div>
 <div id="rôle-des-statistiques-1" class="section level2">
 <h2>Rôle des statistiques</h2>
-<p>Les quatre buts suivants résument la plupart des applications des statistiques:</p>
+<p>Les quatre buts suivants résument la plupart des applications des
+statistiques:</p>
 <ul>
-<li><p><em>Décrire</em> les caractéristiques sommaires d’un ensemble de données.</p></li>
-<li><p>À partir de mesures prises sur un échantillon d’individus, <em>estimer</em> les caractéristiques d’une variable, ou d’une relation entre variables, au niveau de la population.</p></li>
-<li><p><em>Tester</em> une hypothèse portant sur ces variables ou relations entre variables.</p></li>
-<li><p><em>Prédire</em> la valeur d’une variable pour un nouvel individu hors de l’échantillon.</p></li>
+<li><p><em>Décrire</em> les caractéristiques sommaires d’un ensemble de
+données.</p></li>
+<li><p>À partir de mesures prises sur un échantillon d’individus,
+<em>estimer</em> les caractéristiques d’une variable, ou d’une relation
+entre variables, au niveau de la population.</p></li>
+<li><p><em>Tester</em> une hypothèse portant sur ces variables ou
+relations entre variables.</p></li>
+<li><p><em>Prédire</em> la valeur d’une variable pour un nouvel individu
+hors de l’échantillon.</p></li>
 </ul>
 <div id="exemples" class="section level3">
 <h3>Exemples</h3>
 <ul>
-<li><p>Quel est le diamètre moyen des arbres mesurés dans une parcelle? (description, puisqu’on a la mesure pour tous les arbres)</p></li>
-<li><p>Combien y a-t-il d’orignaux dans le Parc de la Vérendrye? (estimation, puisqu’on ne les a pas tous observés)</p>
+<li><p>Quel est le diamètre moyen des arbres mesurés dans une parcelle?
+(description, puisqu’on a la mesure pour tous les arbres)</p></li>
+<li><p>Combien y a-t-il d’orignaux dans le Parc de la Vérendrye?
+(estimation, puisqu’on ne les a pas tous observés)</p>
 <ul>
-<li>La population est-elle en croissance par rapport à l’année précédente? (test d’hypothèse)</li>
+<li>La population est-elle en croissance par rapport à l’année
+précédente? (test d’hypothèse)</li>
 <li>Quelle sera la population dans 10 ans? (prédiction)</li>
 </ul></li>
 </ul>
-<p>Les trois dernières tâches (estimation, test d’hypothèse et prédiction) demandent de généraliser les connaissances acquises à partir d’un nombre limité d’observations. Nous en discuterons davantage dans les prochains cours; pour l’instant, nous nous concentrons sur les statistiques descriptives.</p>
+<p>Les trois dernières tâches (estimation, test d’hypothèse et
+prédiction) demandent de généraliser les connaissances acquises à partir
+d’un nombre limité d’observations. Nous en discuterons davantage dans
+les prochains cours; pour l’instant, nous nous concentrons sur les
+statistiques descriptives.</p>
 </div>
 </div>
 </div>
@@ -315,8 +350,14 @@ div.tocify {
 <h1>Types de données</h1>
 <div id="jeu-de-données" class="section level2">
 <h2>Jeu de données</h2>
-<p>Pour cette leçon, nous utiliserons un jeu de données provenant de l’inventaire des arbres sur des parcelles de 20m x 20m au Parc national de Kejimkujik, en Nouvelle-Écosse. Ces données sont disponibles librement sur le portail des données ouvertes du gouvernement du Canada.</p>
-<p>Voici un aperçu des données. Ici, <em>num_arbre</em> est le numéro d’identification de l’arbre, <em>nb_tiges</em> est le nombre de tiges et <em>dhp</em> est le diamètre à hauteur de poitrine (en cm).</p>
+<p>Pour cette leçon, nous utiliserons un jeu de données provenant de
+l’inventaire des arbres sur des parcelles de 20m x 20m au Parc national
+de Kejimkujik, en Nouvelle-Écosse. Ces données sont disponibles
+librement sur le portail des données ouvertes du gouvernement du
+Canada.</p>
+<p>Voici un aperçu des données. Ici, <em>num_arbre</em> est le numéro
+d’identification de l’arbre, <em>nb_tiges</em> est le nombre de tiges et
+<em>dhp</em> est le diamètre à hauteur de poitrine (en cm).</p>
 <pre><code>##   site parcelle jour mois annee num_arbre nb_tiges espece  dhp
 ## 1   BD        A   31    8  2004         1        1   TSCA 16.3
 ## 2   BD        A   31    8  2004         2        1   TSCA 24.0
@@ -324,79 +365,201 @@ div.tocify {
 ## 4   BD        A   31    8  2004         7        1   ACRU 29.0
 ## 5   BD        A   31    8  2004         8        1   TSCA 15.5
 ## 6   BD        A   31    8  2004         9        1   TSCA 32.0</code></pre>
-<p>Nous distinguerons quatre types de données, divisés en deux groupes: variables numériques et variables catégorielles (parfois appelées qualitatives):</p>
+<p>Nous distinguerons quatre types de données, divisés en deux groupes:
+variables numériques et variables catégorielles (parfois appelées
+qualitatives):</p>
 <ul>
-<li><p>Les variables numériques <em>continues</em> ont un nombre infini de valeurs possibles (théoriquement) dans un intervalle donné. Exemple: diamètre.</p></li>
-<li><p>Les variables numériques <em>discrètes</em> peuvent seulement prendre certaines valeurs dans un intervalle, généralement des nombres entiers. Exemple: année, nombre de tiges.</p></li>
-<li><p>Les variables catégorielles <em>nominales</em> indiquent l’appartenance à une catégorie, sans que ces catégories ne soient ordonnées. Exemple: site, espèce.</p></li>
-<li><p>Les variables catégorielles <em>ordinales</em> indiquent la position sur une échelle ordonnée. Exemple: classe de drainage (xérique, mésique, hydrique), stade de vie (semis, gaule, arbre mature).</p></li>
+<li><p>Les variables numériques <em>continues</em> ont un nombre infini
+de valeurs possibles (théoriquement) dans un intervalle donné. Exemple:
+diamètre.</p></li>
+<li><p>Les variables numériques <em>discrètes</em> peuvent seulement
+prendre certaines valeurs dans un intervalle, généralement des nombres
+entiers. Exemple: année, nombre de tiges.</p></li>
+<li><p>Les variables catégorielles <em>nominales</em> indiquent
+l’appartenance à une catégorie, sans que ces catégories ne soient
+ordonnées. Exemple: site, espèce.</p></li>
+<li><p>Les variables catégorielles <em>ordinales</em> indiquent la
+position sur une échelle ordonnée. Exemple: classe de drainage (xérique,
+mésique, hydrique), stade de vie (semis, gaule, arbre mature).</p></li>
 </ul>
-<p>Les variables catégorielles ordinales sont parfois représentées par des nombres. Toutefois, les niveaux d’une variable catégorielle ne sont pas des quantités et la distance entre deux niveaux n’est pas définie de façon numérique.</p>
+<p>Les variables catégorielles ordinales sont parfois représentées par
+des nombres. Toutefois, les niveaux d’une variable catégorielle ne sont
+pas des quantités et la distance entre deux niveaux n’est pas définie de
+façon numérique.</p>
 </div>
 </div>
-<div id="visualiser-la-distribution-dune-variable-catégorielle" class="section level1">
+<div id="visualiser-la-distribution-dune-variable-catégorielle"
+class="section level1">
 <h1>Visualiser la distribution d’une variable catégorielle</h1>
-<p>Un <strong>graphique à barres</strong> est souvent utilisé pour visualiser le nombre d’observations dans chaque catégorie; dans notre exemple, le nombre d’arbres par espèce.</p>
+<p>Un <strong>graphique à barres</strong> est souvent utilisé pour
+visualiser le nombre d’observations dans chaque catégorie; dans notre
+exemple, le nombre d’arbres par espèce.</p>
 <p><img src="1-Statistiques_descriptives_files/figure-html/bar_espece-1.png" width="672" /></p>
-<p>Pour mettre l’accent sur les proportions des observations par catégorie, on utilise parfois un <strong>graphique circulaire</strong> (<em>pie chart</em>).</p>
+<p>Pour mettre l’accent sur les proportions des observations par
+catégorie, on utilise parfois un <strong>graphique circulaire</strong>
+(<em>pie chart</em>).</p>
 <p><img src="1-Statistiques_descriptives_files/figure-html/circ_espece-1.png" width="672" /></p>
-<p>En général, les graphiques circulaires sont déconseillés. Ils deviennent difficiles à lire lorsque le nombre de catégories agumente. Aussi, il est plus facile visuellement d’estimer une longueur qu’une surface; autrement dit, on peut mieux comparer les grandeurs lorsqu’elles sont représentées sur une dimension (comme dans le graphique à barres) que sur deux dimensions.</p>
-<p>Cela dit, le graphique circulaire peut être utile lorsqu’on veut comparer les proportions à des fractions simples comme 1/2 ou 1/4. Par exemple, on voit ici que plus de 50% des arbres font partie des deux espèces les plus communes, TSCA (pruche du Canada) et ACRU (érable rouge).</p>
-<p>Pour une variable nominale, les catégories n’ont pas d’ordre fixe. En les ordonnant d’après leur fréquence, comme on l’a fait ici, on simplifie la lecture du graphique. Pour une variable ordinale, il faut bien sûr respecter l’ordre des valeurs de la variable.</p>
+<p>En général, les graphiques circulaires sont déconseillés. Ils
+deviennent difficiles à lire lorsque le nombre de catégories agumente.
+Aussi, il est plus facile visuellement d’estimer une longueur qu’une
+surface; autrement dit, on peut mieux comparer les grandeurs
+lorsqu’elles sont représentées sur une dimension (comme dans le
+graphique à barres) que sur deux dimensions.</p>
+<p>Cela dit, le graphique circulaire peut être utile lorsqu’on veut
+comparer les proportions à des fractions simples comme 1/2 ou 1/4. Par
+exemple, on voit ici que plus de 50% des arbres font partie des deux
+espèces les plus communes, TSCA (pruche du Canada) et ACRU (érable
+rouge).</p>
+<p>Pour une variable nominale, les catégories n’ont pas d’ordre fixe. En
+les ordonnant d’après leur fréquence, comme on l’a fait ici, on
+simplifie la lecture du graphique. Pour une variable ordinale, il faut
+bien sûr respecter l’ordre des valeurs de la variable.</p>
 </div>
-<div id="visualiser-la-distribution-dune-variable-numérique-continue" class="section level1">
+<div id="visualiser-la-distribution-dune-variable-numérique-continue"
+class="section level1">
 <h1>Visualiser la distribution d’une variable numérique continue</h1>
-<p>Un <strong>histogramme</strong> est obtenu en comptant le nombre d’observations dans des intervalles de taille égale sur l’axe de la variable observée. Ci-dessous, l’histogramme du DHP montre clairement l’asymétrie de la distribution (plusieurs arbres de petit diamètre et de rares arbres avec un très grand diamètre). On remarque aussi que l’inventaire comporte un DHP minimum autour de 10 cm.</p>
+<p>Un <strong>histogramme</strong> est obtenu en comptant le nombre
+d’observations dans des intervalles de taille égale sur l’axe de la
+variable observée. Ci-dessous, l’histogramme du DHP montre clairement
+l’asymétrie de la distribution (plusieurs arbres de petit diamètre et de
+rares arbres avec un très grand diamètre). On remarque aussi que
+l’inventaire comporte un DHP minimum autour de 10 cm.</p>
 <p><img src="1-Statistiques_descriptives_files/figure-html/histo_dhp-1.png" width="672" /></p>
-<p>L’approximation de la distribution par un histogramme dépend du choix de la taille de l’intervalle (<em>bin width</em> en anglais), donc il est utile de tester plusieurs valeurs. Avec des intervalles trop grands, on perd de l’information sur les variation de fréquence à petite échelle; avec des intervalles trop petits, on obtient une distribution trop irrégulière par manque de données dans chaque intervalle.</p>
-<p>Le <strong>graphique de densité</strong> utilise quant à lui une méthode d’estimation par noyau (<em>kernel density estimation</em>) pour approximer la distribution de probabilité continue à partir des observations. Comme pour l’histogramme, le graphique de densité comprend un paramètre qui détermine la résolution du graphique sur l’axe des <em>x</em>, allant d’une distribution plus lisse à une plus irrégulière.</p>
+<p>L’approximation de la distribution par un histogramme dépend du choix
+de la taille de l’intervalle (<em>bin width</em> en anglais), donc il
+est utile de tester plusieurs valeurs. Avec des intervalles trop grands,
+on perd de l’information sur les variation de fréquence à petite
+échelle; avec des intervalles trop petits, on obtient une distribution
+trop irrégulière par manque de données dans chaque intervalle.</p>
+<p>Le <strong>graphique de densité</strong> utilise quant à lui une
+méthode d’estimation par noyau (<em>kernel density estimation</em>) pour
+approximer la distribution de probabilité continue à partir des
+observations. Comme pour l’histogramme, le graphique de densité comprend
+un paramètre qui détermine la résolution du graphique sur l’axe des
+<em>x</em>, allant d’une distribution plus lisse à une plus
+irrégulière.</p>
 <p><img src="1-Statistiques_descriptives_files/figure-html/dens_dhp-1.png" width="672" /></p>
 </div>
-<div id="statistiques-sommaires-dune-variable-numérique" class="section level1">
+<div id="statistiques-sommaires-dune-variable-numérique"
+class="section level1">
 <h1>Statistiques sommaires d’une variable numérique</h1>
 <div id="moyenne-variance-et-écart-type" class="section level2">
 <h2>Moyenne, variance et écart-type</h2>
-<p>Prenons une série de données <span class="math inline">\(x_1\)</span>, <span class="math inline">\(x_2\)</span>, …, <span class="math inline">\(x_n\)</span> provenant de <span class="math inline">\(n\)</span> observations d’une variable numérique <span class="math inline">\(x\)</span>.</p>
-<p>La <strong>moyenne</strong> de <span class="math inline">\(x\)</span> est notée <span class="math inline">\(\bar{x}\)</span> et définie comme:</p>
-<p><span class="math display">\[\bar{x} = \frac{x_1 + x_2 + ... + x_n}{n} = \frac{\sum_{i = 1}^{n} x_i}{n}\]</span></p>
-<p>La moyenne constitue en quelque sorte le “centre de gravité” d’une distribution: si chaque observation exerçait un poids proportionnel à sa distance de la moyenne, ces poids seraient en équilibre.</p>
+<p>Prenons une série de données <span
+class="math inline">\(x_1\)</span>, <span
+class="math inline">\(x_2\)</span>, …, <span
+class="math inline">\(x_n\)</span> provenant de <span
+class="math inline">\(n\)</span> observations d’une variable numérique
+<span class="math inline">\(x\)</span>.</p>
+<p>La <strong>moyenne</strong> de <span class="math inline">\(x\)</span>
+est notée <span class="math inline">\(\bar{x}\)</span> et définie
+comme:</p>
+<p><span class="math display">\[\bar{x} = \frac{x_1 + x_2 + ... +
+x_n}{n} = \frac{\sum_{i = 1}^{n} x_i}{n}\]</span></p>
+<p>La moyenne constitue en quelque sorte le “centre de gravité” d’une
+distribution: si chaque observation exerçait un poids proportionnel à sa
+distance de la moyenne, ces poids seraient en équilibre.</p>
 <p><img src="../images/moyenne.PNG" /></p>
-<p>Par cette définition, si on soustrait <span class="math inline">\(\bar{x}\)</span> de chaque observation pour obtenir son écart à la moyenne, la somme de ces écarts est égale à zéro.</p>
+<p>Par cette définition, si on soustrait <span
+class="math inline">\(\bar{x}\)</span> de chaque observation pour
+obtenir son écart à la moyenne, la somme de ces écarts est égale à
+zéro.</p>
 <p><img src="../images/moyenne_ecart.PNG" /></p>
-<p>Pour mesurer le degré de dispersion des données autour de leur moyenne, on prend le carré des écarts à la moyenne. La moyenne de ces écarts au carré se nomme la <strong>variance</strong>, notée <span class="math inline">\(\sigma_x^2\)</span>.</p>
-<p><span class="math display">\[\sigma_x^2 = \frac{\sum_{i = 1}^{n} (x_i - \bar{x})^2}{n}\]</span></p>
-<p>L’unité de mesure de la variance diffère de celle des données (ex.: pour un diamètre en cm, la variance est en cm<span class="math inline">\(^2\)</span>). Pour cette raison, il est utile de rapporter non pas la variance comme telle, mais plutôt sa racine carrée, ou <strong>écart-type</strong> (<span class="math inline">\(\sigma_x\)</span>)</p>
-<p><span class="math display">\[\sigma_x = \sqrt{\frac{\sum_{i = 1}^{n} (x_i - \bar{x})^2}{n}}\]</span></p>
+<p>Pour mesurer le degré de dispersion des données autour de leur
+moyenne, on prend le carré des écarts à la moyenne. La moyenne de ces
+écarts au carré se nomme la <strong>variance</strong>, notée <span
+class="math inline">\(\sigma_x^2\)</span>.</p>
+<p><span class="math display">\[\sigma_x^2 = \frac{\sum_{i = 1}^{n} (x_i
+- \bar{x})^2}{n}\]</span></p>
+<p>L’unité de mesure de la variance diffère de celle des données (ex.:
+pour un diamètre en cm, la variance est en cm<span
+class="math inline">\(^2\)</span>). Pour cette raison, il est utile de
+rapporter non pas la variance comme telle, mais plutôt sa racine carrée,
+ou <strong>écart-type</strong> (<span
+class="math inline">\(\sigma_x\)</span>)</p>
+<p><span class="math display">\[\sigma_x = \sqrt{\frac{\sum_{i = 1}^{n}
+(x_i - \bar{x})^2}{n}}\]</span></p>
 <blockquote>
-<p><strong>Note</strong>: Ici, nous utilisons la moyenne et la variance pour décrire une série de données, sans référence à un modèle statistique ou à une population plus grande. Comme nous verrons au prochain cours, lorsqu’on souhaite estimer la variance ou l’écart-type d’une population à partir d’un échantillon, la division par <span class="math inline">\(n\)</span> est remplacée par une division par <span class="math inline">\(n - 1\)</span>.</p>
+<p><strong>Note</strong>: Ici, nous utilisons la moyenne et la variance
+pour décrire une série de données, sans référence à un modèle
+statistique ou à une population plus grande. Comme nous verrons au
+prochain cours, lorsqu’on souhaite estimer la variance ou l’écart-type
+d’une population à partir d’un échantillon, la division par <span
+class="math inline">\(n\)</span> est remplacée par une division par
+<span class="math inline">\(n - 1\)</span>.</p>
 </blockquote>
-<p>Comme la moyenne et l’écart-type ont les mêmes unités, on peut calculer leur ratio pour obtenir une mesure de la dispersion relative des données. Ce ratio est nommé <strong>coefficient de variation</strong> (CV) et s’exprime généralement en pourcentage.</p>
-<p>Dans notre jeu de données, l’ensemble des arbres a un DHP moyen de 21.8 cm, avec un écart-type de 12.3 cm (CV de 56%). Nous ajoutons un point à l’histogramme pour représenter la moyenne et une ligne correspondant à un écart-type de chaque côté de la moyenne. Notez que si la moyenne et l’écart-type donnent une certaine idée de la distribution des valeurs, d’autres informations telles que l’asymétrie de la distribution sont perdues.</p>
+<p>Comme la moyenne et l’écart-type ont les mêmes unités, on peut
+calculer leur ratio pour obtenir une mesure de la dispersion relative
+des données. Ce ratio est nommé <strong>coefficient de
+variation</strong> (CV) et s’exprime généralement en pourcentage.</p>
+<p>Dans notre jeu de données, l’ensemble des arbres a un DHP moyen de
+21.8 cm, avec un écart-type de 12.3 cm (CV de 56%). Nous ajoutons un
+point à l’histogramme pour représenter la moyenne et une ligne
+correspondant à un écart-type de chaque côté de la moyenne. Notez que si
+la moyenne et l’écart-type donnent une certaine idée de la distribution
+des valeurs, d’autres informations telles que l’asymétrie de la
+distribution sont perdues.</p>
 <p><img src="1-Statistiques_descriptives_files/figure-html/histo_moy_dhp-1.png" width="672" /></p>
 </div>
 <div id="statistiques-de-rang" class="section level2">
 <h2>Statistiques de rang</h2>
-<p>D’autres statistiques sommaires courantes sont basées sur le rang des observations, lorsque celles-ci sont classées en ordre croissant. Celles-ci incluent:</p>
+<p>D’autres statistiques sommaires courantes sont basées sur le rang des
+observations, lorsque celles-ci sont classées en ordre croissant.
+Celles-ci incluent:</p>
 <ul>
 <li><p>le minimum et le maximum;</p></li>
-<li><p>la <strong>médiane</strong>: définie comme l’observation de rang central, ou pour un nombre pair de données, la moyenne des deux observations centrales;</p></li>
+<li><p>la <strong>médiane</strong>: définie comme l’observation de rang
+central, ou pour un nombre pair de données, la moyenne des deux
+observations centrales;</p></li>
 <li><p>les <strong>quantiles</strong>.</p></li>
 </ul>
-<p>Les quantiles peuvent être vus comme une généralisation de la médiane. Si la médiane divise les données en deux groupes contenant le même nombre d’observations, d’autres types de quantiles divisent les données en plus de deux groupes. Les types de quantiles les plus utilisés sont les quartiles (4 groupes), quintiles (5 groupes), déciles (10 groupes) ou centiles (100 groupes).</p>
-<p>En particulier, les quartiles servent à définir un graphique nommé <strong>boîte à moustaches</strong> (<em>boxplot</em>).</p>
+<p>Les quantiles peuvent être vus comme une généralisation de la
+médiane. Si la médiane divise les données en deux groupes contenant le
+même nombre d’observations, d’autres types de quantiles divisent les
+données en plus de deux groupes. Les types de quantiles les plus
+utilisés sont les quartiles (4 groupes), quintiles (5 groupes), déciles
+(10 groupes) ou centiles (100 groupes).</p>
+<p>En particulier, les quartiles servent à définir un graphique nommé
+<strong>boîte à moustaches</strong> (<em>boxplot</em>).</p>
 </div>
 <div id="boîte-à-moustaches" class="section level2">
 <h2>Boîte à moustaches</h2>
-<p>Popularisé par Tukey, ce graphique permet de visualiser la position des quartiles (incluant la médiane). La boîte située entre le 1er et le 3e quartile représente la région contenant 50% des observations. La distance entre le 1er et le 3e quartile se nomme l’écart interquartile (ou IQR pour <em>interquartile range</em>). Une moustache montre l’étendue des données de chaque côté de la boîte.</p>
+<p>Popularisé par Tukey, ce graphique permet de visualiser la position
+des quartiles (incluant la médiane). La boîte située entre le 1er et le
+3e quartile représente la région contenant 50% des observations. La
+distance entre le 1er et le 3e quartile se nomme l’écart interquartile
+(ou IQR pour <em>interquartile range</em>). Une moustache montre
+l’étendue des données de chaque côté de la boîte.</p>
 <p><img src="../images/boxplot.PNG" /></p>
-<p>Souvent, la longueur maximale de chaque moustache est déterminée par l’écart interquartile (1.5 fois l’IQR, selon la convention de Tukey). Les valeurs extrêmes au-delà de cette limite sont représentées par des points.</p>
+<p>Souvent, la longueur maximale de chaque moustache est déterminée par
+l’écart interquartile (1.5 fois l’IQR, selon la convention de Tukey).
+Les valeurs extrêmes au-delà de cette limite sont représentées par des
+points.</p>
 <p><img src="1-Statistiques_descriptives_files/figure-html/boxplot_dhp-1.png" width="672" /></p>
-<p>En juxtaposant l’histogramme du DHP et la boîte à moustaches, on voit que cette dernière représente bien les caractéristiques essentielles de la distribution, incluant l’asymétrie, le DHP minimal et la présence de quelques très grands arbres.</p>
+<p>En juxtaposant l’histogramme du DHP et la boîte à moustaches, on voit
+que cette dernière représente bien les caractéristiques essentielles de
+la distribution, incluant l’asymétrie, le DHP minimal et la présence de
+quelques très grands arbres.</p>
 <p><img src="1-Statistiques_descriptives_files/figure-html/histo_boxplot-1.png" width="672" /></p>
-<p>Par rapport à la moyenne et l’écart-type, les statistiques basées sur les quantiles sont moins sensibles aux valeurs extrêmes. Voyons ce qu’il arrive si nous supprimons les données des 18 arbres (sur plus de 1100) avec un DHP supérieur à 65 cm.</p>
+<p>Par rapport à la moyenne et l’écart-type, les statistiques basées sur
+les quantiles sont moins sensibles aux valeurs extrêmes. Voyons ce qu’il
+arrive si nous supprimons les données des 18 arbres (sur plus de 1100)
+avec un DHP supérieur à 65 cm.</p>
 <p><img src="1-Statistiques_descriptives_files/figure-html/val_extr-1.png" width="672" /></p>
-<p>L’exclusion de ces quelques grands arbres affecte davantage la moyenne (diminution de 4%) et l’écart-type (diminution de 16%) que la médiane (diminution de 1%) et l’écart interquartile (diminution de 2%). Rappelons-nous que le poids d’une observation sur la moyenne dépend de sa distance à cette dernière. Comparativement, la médiane dépend seulement du nombre d’observations plus petites ou plus grandes, mais pas de leur distance.</p>
-<p>Si la boîte à moustaches représente une distribution de manière très simplifiée, cette simplicité peut représenter un avantage lorsqu’on souhaite visualiser de nombreuses distributions côte-à-côte. Par exemple, nous illustrons ci-dessous la distribution du DHP des principales espèces d’arbres à Kejimkujik. On remarque tout de suite que le DHP des bouleaux blancs est moins variable et distribué plus symétriquement que celui des autres espèces.</p>
+<p>L’exclusion de ces quelques grands arbres affecte davantage la
+moyenne (diminution de 4%) et l’écart-type (diminution de 16%) que la
+médiane (diminution de 1%) et l’écart interquartile (diminution de 2%).
+Rappelons-nous que le poids d’une observation sur la moyenne dépend de
+sa distance à cette dernière. Comparativement, la médiane dépend
+seulement du nombre d’observations plus petites ou plus grandes, mais
+pas de leur distance.</p>
+<p>Si la boîte à moustaches représente une distribution de manière très
+simplifiée, cette simplicité peut représenter un avantage lorsqu’on
+souhaite visualiser de nombreuses distributions côte-à-côte. Par
+exemple, nous illustrons ci-dessous la distribution du DHP des
+principales espèces d’arbres à Kejimkujik. On remarque tout de suite que
+le DHP des bouleaux blancs est moins variable et distribué plus
+symétriquement que celui des autres espèces.</p>
 <p><img src="1-Statistiques_descriptives_files/figure-html/box_mult2-1.png" width="672" /></p>
 </div>
 </div>
@@ -404,42 +567,94 @@ div.tocify {
 <h1>Résumé: Statistiques d’une variable</h1>
 <p><strong>Variables numériques</strong></p>
 <ul>
-<li><p>Visualiser la distribution: boîte à moustaches, histogramme, graphique de densité</p></li>
+<li><p>Visualiser la distribution: boîte à moustaches, histogramme,
+graphique de densité</p></li>
 <li><p>Mesures de tendance centrale: médiane, moyenne</p></li>
-<li><p>Mesures de dispersion: étendue (max - min), écart interquartile, écart-type</p></li>
-<li><p>Pour des séries de données à différentes échelles, on peut comparer la dispersion relative en calculant le coefficient de variation (ratio de l’écart-type sur la moyenne, souvent exprimé en %).</p></li>
+<li><p>Mesures de dispersion: étendue (max - min), écart interquartile,
+écart-type</p></li>
+<li><p>Pour des séries de données à différentes échelles, on peut
+comparer la dispersion relative en calculant le coefficient de variation
+(ratio de l’écart-type sur la moyenne, souvent exprimé en %).</p></li>
 </ul>
 <p><strong>Variables catégorielles</strong></p>
 <ul>
 <li><p>Visualiser la distribution: graphique à barres.</p></li>
-<li><p>Variable nominale: Comme tendance centrale, on peut seulement définir le <strong>mode</strong> (valeur la plus commune).</p></li>
-<li><p>Variable ordinale: Puisque les catégories sont ordonnées, on peut aussi définir la valeur médiane.</p></li>
+<li><p>Variable nominale: Comme tendance centrale, on peut seulement
+définir le <strong>mode</strong> (valeur la plus commune).</p></li>
+<li><p>Variable ordinale: Puisque les catégories sont ordonnées, on peut
+aussi définir la valeur médiane.</p></li>
 </ul>
 </div>
-<div id="relation-entre-deux-variables-numériques" class="section level1">
+<div id="relation-entre-deux-variables-numériques"
+class="section level1">
 <h1>Relation entre deux variables numériques</h1>
-<p>Pour terminer, nous discuterons des statistiques décrivant la relation entre deux variables numériques. Cette relation peut être visualisée à l’aide d’un <strong>nuage de points</strong>.</p>
-<p>Par exemple, voici un graphique du nombre d’heures de sommeil de 83 espèces de mammifères en fonction de leur masse corporelle. Le jeu de données provient d’une étude de Savage et West (2004) et est inclus avec le package <em>ggplot2</em> dans R.</p>
+<p>Pour terminer, nous discuterons des statistiques décrivant la
+relation entre deux variables numériques. Cette relation peut être
+visualisée à l’aide d’un <strong>nuage de points</strong>.</p>
+<p>Par exemple, voici un graphique du nombre d’heures de sommeil de 83
+espèces de mammifères en fonction de leur masse corporelle. Le jeu de
+données provient d’une étude de Savage et West (2004) et est inclus avec
+le package <em>ggplot2</em> dans R.</p>
 <p><img src="1-Statistiques_descriptives_files/figure-html/nuage_point-1.png" width="672" /></p>
-<p>À première vue, il semble y avoir une tendance à dormir moins longtemps chez les plus grands mammifères.</p>
+<p>À première vue, il semble y avoir une tendance à dormir moins
+longtemps chez les plus grands mammifères.</p>
 <div id="covariance-et-corrélation" class="section level2">
 <h2>Covariance et corrélation</h2>
-<p>Prenons deux variables <span class="math inline">\(x\)</span> et <span class="math inline">\(y\)</span> mesurées sur les mêmes unités d’observation. Rappelons-nous que la variance correspond à la moyenne du carré des écarts à la moyenne d’une variable.</p>
-<p><span class="math display">\[\sigma_x^2 = \frac{\sum_{i = 1}^{n} (x_i - \bar{x})^2}{n}\]</span></p>
-<p>La <strong>covariance</strong>, quant à elle, est la moyenne du produit des écarts de <span class="math inline">\(x\)</span> et <span class="math inline">\(y\)</span> à leur moyenne respective.</p>
-<p><span class="math display">\[\sigma_{xy} = \frac{\sum_{i = 1}^{n} (x_i - \bar{x}) (y_i - \bar{y})}{n}\]</span></p>
-<p>Lorsque les variables tendent à être simultanément au-dessus (ou sous) leur moyenne, les écarts sont plus souvent du même signe, donc la covariance est positive. Lorsque les écarts tendent à être de signe opposé, la covariance est négative.</p>
-<p>Il est possible de démontrer que la valeur absolue maximale de la covariance est égale au produit des écarts-type des deux variables. En divisant la covariance par le produit des écart-types, on obtient donc une valeur normalisée dans l’intervalle de -1 à 1. Cette valeur est le <strong>coefficient de corrélation</strong> de Pearson, <span class="math inline">\(\rho_{xy}\)</span>.</p>
-<p><span class="math display">\[\rho_{xy} = \frac{\sigma_{xy}}{\sigma_x \sigma_y}\]</span></p>
-<p>Le coefficient de corrélation de Pearson mesure l’association <em>linéaire</em> entre deux variables. Un coefficient de 1 (respectivement, -1) correspond à une corrélation positive (resp., négative) parfaite. Un coefficient de 0 indique l’absence de corrélation. Pour notre exemple précédent (heures de sommeil vs. logarithme de la masse corporelle), <span class="math inline">\(\rho_{xy}\)</span> = -0.57.</p>
-<p>Si deux variables sont <strong>indépendantes</strong>, c’est-à-dire que connaître l’une d’elle n’apporte aucune information sur l’autre, leur corrélation est nécessairement égale à zéro. Toutefois, comme le montre l’image ci-dessous, l’inverse n’est pas nécessairement le cas.</p>
-<p><img src="../images/Correlation_examples.png" /> <small>Source: Wikipédia</small></p>
-<p>Cette figure indique les coefficients de corrélation associés à différents nuages de points. La première rangée montre la progression entre deux variables indépendantes (au centre) vers des associations positives et négatives de plus en plus fortes. La deuxième rangée montre que le coefficient de corrélation ne dépend pas de la pente d’une relation linéaire entre deux variables. La troisième rangée donne plusieurs exemples où la corrélation linéaire est de zéro, même s’il existe des patrons d’association (non-linéaires) entre les deux variables.</p>
+<p>Prenons deux variables <span class="math inline">\(x\)</span> et
+<span class="math inline">\(y\)</span> mesurées sur les mêmes unités
+d’observation. Rappelons-nous que la variance correspond à la moyenne du
+carré des écarts à la moyenne d’une variable.</p>
+<p><span class="math display">\[\sigma_x^2 = \frac{\sum_{i = 1}^{n} (x_i
+- \bar{x})^2}{n}\]</span></p>
+<p>La <strong>covariance</strong>, quant à elle, est la moyenne du
+produit des écarts de <span class="math inline">\(x\)</span> et <span
+class="math inline">\(y\)</span> à leur moyenne respective.</p>
+<p><span class="math display">\[\sigma_{xy} = \frac{\sum_{i = 1}^{n}
+(x_i - \bar{x}) (y_i - \bar{y})}{n}\]</span></p>
+<p>Lorsque les variables tendent à être simultanément au-dessus (ou
+sous) leur moyenne, les écarts sont plus souvent du même signe, donc la
+covariance est positive. Lorsque les écarts tendent à être de signe
+opposé, la covariance est négative.</p>
+<p>Il est possible de démontrer que la valeur absolue maximale de la
+covariance est égale au produit des écarts-type des deux variables. En
+divisant la covariance par le produit des écart-types, on obtient donc
+une valeur normalisée dans l’intervalle de -1 à 1. Cette valeur est le
+<strong>coefficient de corrélation</strong> de Pearson, <span
+class="math inline">\(\rho_{xy}\)</span>.</p>
+<p><span class="math display">\[\rho_{xy} = \frac{\sigma_{xy}}{\sigma_x
+\sigma_y}\]</span></p>
+<p>Le coefficient de corrélation de Pearson mesure l’association
+<em>linéaire</em> entre deux variables. Un coefficient de 1
+(respectivement, -1) correspond à une corrélation positive (resp.,
+négative) parfaite. Un coefficient de 0 indique l’absence de
+corrélation. Pour notre exemple précédent (heures de sommeil
+vs. logarithme de la masse corporelle), <span
+class="math inline">\(\rho_{xy}\)</span> = -0.57.</p>
+<p>Si deux variables sont <strong>indépendantes</strong>, c’est-à-dire
+que connaître l’une d’elle n’apporte aucune information sur l’autre,
+leur corrélation est nécessairement égale à zéro. Toutefois, comme le
+montre l’image ci-dessous, l’inverse n’est pas nécessairement le
+cas.</p>
+<p><img src="../images/Correlation_examples.png" /> <small>Source:
+Wikipédia</small></p>
+<p>Cette figure indique les coefficients de corrélation associés à
+différents nuages de points. La première rangée montre la progression
+entre deux variables indépendantes (au centre) vers des associations
+positives et négatives de plus en plus fortes. La deuxième rangée montre
+que le coefficient de corrélation ne dépend pas de la pente d’une
+relation linéaire entre deux variables. La troisième rangée donne
+plusieurs exemples où la corrélation linéaire est de zéro, même s’il
+existe des patrons d’association (non-linéaires) entre les deux
+variables.</p>
 </div>
 </div>
 <div id="analyse-initiale-des-données" class="section level1">
 <h1>Analyse initiale des données</h1>
-<p>Il est toujours utile de réaliser une exploration initiale des données avant de passer à l’étape de modélisation. Le but de cette analyse initiale est de se familiariser avec le jeu de données et identifier ses particularités ou possibles anomalies. Voici quelques suggestions de points à vérifier.</p>
+<p>Il est toujours utile de réaliser une exploration initiale des
+données avant de passer à l’étape de modélisation. Le but de cette
+analyse initiale est de se familiariser avec le jeu de données et
+identifier ses particularités ou possibles anomalies. Voici quelques
+suggestions de points à vérifier.</p>
 <p>Pour les variables catégorielles:</p>
 <ul>
 <li>Combien de catégories y a-t-il?</li>
@@ -454,15 +669,21 @@ div.tocify {
 <p>Pour tous les types de variables:</p>
 <ul>
 <li>Y a-t-il des valeurs manquantes et combien?</li>
-<li>Y a-t-il des valeurs implausibles qui pourraient être des erreurs?</li>
+<li>Y a-t-il des valeurs implausibles qui pourraient être des
+erreurs?</li>
 </ul>
 </div>
 <div id="références" class="section level1">
 <h1>Références</h1>
-<p>Pour une discussion plus approfondie des différentes méthodes et meilleures pratiques pour la construction de graphiques, je recommande les livres électroniques suivants:</p>
+<p>Pour une discussion plus approfondie des différentes méthodes et
+meilleures pratiques pour la construction de graphiques, je recommande
+les livres électroniques suivants:</p>
 <ul>
-<li><p>Healy, K. <em>Data Visualization: A practical introduction</em>. <a href="https://socviz.co/">https://socviz.co/</a> (aussi disponible en format papier à la bibliothèque de l’UQAT)</p></li>
-<li><p>Wilke, C.O. <em>Fundamentals of Data Visualization</em>. <a href="https://clauswilke.com/dataviz/">https://clauswilke.com/dataviz/</a></p></li>
+<li><p>Healy, K. <em>Data Visualization: A practical introduction</em>.
+<a href="https://socviz.co/">https://socviz.co/</a> (aussi disponible en
+format papier à la bibliothèque de l’UQAT)</p></li>
+<li><p>Wilke, C.O. <em>Fundamentals of Data Visualization</em>. <a
+href="https://clauswilke.com/dataviz/">https://clauswilke.com/dataviz/</a></p></li>
 </ul>
 </div>
 
@@ -477,7 +698,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -495,7 +716,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -504,6 +725,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
@@ -516,7 +740,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

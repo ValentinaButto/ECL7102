@@ -1,13 +1,15 @@
 ---
 title: "Modèles statistiques et intervalles de confiance"
-date: "<br/>13 septembre 2021"
+date: "<br/>8 septembre 2022"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -533,6 +535,10 @@ Lorsque le nombre de degrés de liberté est élevé, comme c'est le cas si on c
 - La distribution $t$ de Student remplace la distribution normale centrée réduite pour estimer l'intervalle de confiance de la moyenne d'un échantillon, lorsque l'écart-type de la population est inconnu. Cette distribution a des valeurs extrêmes plus fréquentes que la distribution normale, surtout lorsque le nombre de degrés de liberté est faible.
 
 # Référence
+
+
+Le contenu de cette partie est basé sur le cours ECL7102 - Analyses et modélisation des données écologiques offert à l'UQAT lors de la session d'automne 2021 créé par Philippe Marchand (anciennement professo UQAT). Le contenu du cours est disponible en ligne à l'adresse suivante : https://github.com/pmarchand1/ECL7102
+
 
 Le site [Seeing Theory](https://students.brown.edu/seeing-theory/) présente de façon visuelle et interactive plusieurs concepts statistiques. Par exemple, les chapitres 3 (*Probability Distributions*) et 4 (*Frequentist Inference*) se rapportent aux concepts vus dans ce cours.
 

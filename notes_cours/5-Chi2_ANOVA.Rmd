@@ -1,13 +1,15 @@
 ---
 title: "Tableaux de contingence et ANOVA"
-date: "<br/>27 septembre 2021"
+date: "<br/>27 septembre 2023"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -429,4 +431,6 @@ Plus tard dans la session, nous nous concentrerons sur les modèles de régressi
 |Prédicteur catégoriel |  Test du $\chi^2$     | Test $t$ (2 catégories) ou ANOVA (plus de 2 catégories) |
 |Prédicteur catégoriel ou numérique |  Régression logistique  | Régression linéaire |
 
+# Références
 
+Le contenu de cette partie est basé sur le cours ECL7102 - Analyses et modélisation des données écologiques offert à l'UQAT lors de la session d'automne 2021 créé par Philippe Marchand (anciennement professor à l'UQAT). Le contenu du cours est disponible en ligne à l'adresse suivante : https://github.com/pmarchand1/ECL7102

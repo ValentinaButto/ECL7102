@@ -10,29 +10,43 @@
 
 
 
-<meta name="date" content="2021-11-22" />
+<meta name="date" content="2023-11-24" />
 
 <title>Linear mixed models, part 2</title>
 
-<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
 <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="libs/navigation-1.1/tabsets.js"></script>
 <link href="libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -45,32 +59,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 
 
@@ -80,10 +70,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -100,6 +86,12 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
@@ -112,13 +104,12 @@ summary {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -126,16 +117,9 @@ summary {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -238,7 +222,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -249,27 +233,46 @@ div.tocify {
 
 
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
 <h1 class="title toc-ignore">Linear mixed models, part 2</h1>
-<h4 class="date"><br/>November 22, 2021</h4>
+<h4 class="date"><br/>November 24, 2023</h4>
 
 </div>
 
 
 <div id="review" class="section level1">
 <h1>Review</h1>
-<p>In the last class, we saw different ways of treating grouped data in the context of a “classical” linear regression: ignore groups, estimate effects separately for each group, or indirectly account for groups based on group-level predictors.</p>
+<p>In the last class, we saw different ways of treating grouped data in
+the context of a “classical” linear regression: ignore groups, estimate
+effects separately for each group, or indirectly account for groups
+based on group-level predictors.</p>
 <ul>
-<li><p>On the one hand, ignoring the grouped data structure can lead to an overestimate of the precision of the inferences, since the significance tests and confidence intervals of the linear regression are based on the assumption that the residuals are all independent; this is not the case when the residuals of the same group are correlated.</p></li>
-<li><p>On the other hand, estimating fixed effects for each group may lead to overestimation of differences between groups, especially when there are few observations per group; in this case, a large part of the observed differences is due to random sampling.</p></li>
+<li><p>On the one hand, ignoring the grouped data structure can lead to
+an overestimate of the precision of the inferences, since the
+significance tests and confidence intervals of the linear regression are
+based on the assumption that the residuals are all independent; this is
+not the case when the residuals of the same group are
+correlated.</p></li>
+<li><p>On the other hand, estimating fixed effects for each group may
+lead to overestimation of differences between groups, especially when
+there are few observations per group; in this case, a large part of the
+observed differences is due to random sampling.</p></li>
 </ul>
-<p>This discussion led us to consider <em>linear mixed models</em> to represent this type of data.</p>
+<p>This discussion led us to consider <em>linear mixed models</em> to
+represent this type of data.</p>
 <ul>
-<li><p>Unlike linear regression that includes only one random term (individual-level residuals), mixed models include the random variation shared by the observations of the same group.</p></li>
-<li><p>Mixed models also produce estimates of the regression coefficients for each group, but assuming a normal distribution of these coefficients centered on the average of the groups. Compared to group fixed effects, these coefficients are “shrunk” towards the overall average. This allows for more reliable estimates even with few observations per group.</p></li>
+<li><p>Unlike linear regression that includes only one random term
+(individual-level residuals), mixed models include the random variation
+shared by the observations of the same group.</p></li>
+<li><p>Mixed models also produce estimates of the regression
+coefficients for each group, but assuming a normal distribution of these
+coefficients centered on the average of the groups. Compared to group
+fixed effects, these coefficients are “shrunk” towards the overall
+average. This allows for more reliable estimates even with few
+observations per group.</p></li>
 </ul>
 </div>
 <div id="objectives" class="section level1">
@@ -277,16 +280,28 @@ div.tocify {
 <ul>
 <li><p>Understand how mixed models deal with unbalanced groups.</p></li>
 <li><p>Make predictions from a linear mixed model.</p></li>
-<li><p>Create models with the random effect of several variables and the random effect of a variable on more than one coefficient.</p></li>
+<li><p>Create models with the random effect of several variables and the
+random effect of a variable on more than one coefficient.</p></li>
 <li><p>Apply model selection with AIC to mixed models.</p></li>
 </ul>
 </div>
 <div id="mixed-models-for-unbalanced-groups" class="section level1">
 <h1>Mixed models for unbalanced groups</h1>
-<p>In the examples seen in the last class and lab, the number of observations was balanced between the groups. Mixed models also have interesting properties for cases where groups do not contain the same number of observations, as we will see in the next example.</p>
-<div id="example-house-radon-concentration-in-minnesota" class="section level2">
+<p>In the examples seen in the last class and lab, the number of
+observations was balanced between the groups. Mixed models also have
+interesting properties for cases where groups do not contain the same
+number of observations, as we will see in the next example.</p>
+<div id="example-house-radon-concentration-in-minnesota"
+class="section level2">
 <h2>Example: House radon concentration in Minnesota</h2>
-<p>The dataset <a href="../donnees/radon.csv">radon.csv</a>, from the textbook by Gelman and Hill, contains radon concentration measurements (<code>log_radon</code>, on a logarithmic scale) from 919 houses in 85 counties (<code>county</code>) of the American state of Minnesota. The number of houses sampled per county ranges from 1 to 116. This dataset includes a house-level predictor, the floor where the measurement was taken (with 0 = basement and 1 = ground floor), and a county-level predictor, the soil uranium level (also on a logarithmic scale).</p>
+<p>The dataset <a href="../donnees/radon.csv">radon.csv</a>, from the
+textbook by Gelman and Hill, contains radon concentration measurements
+(<code>log_radon</code>, on a logarithmic scale) from 919 houses in 85
+counties (<code>county</code>) of the American state of Minnesota. The
+number of houses sampled per county ranges from 1 to 116. This dataset
+includes a house-level predictor, the floor where the measurement was
+taken (with 0 = basement and 1 = ground floor), and a county-level
+predictor, the soil uranium level (also on a logarithmic scale).</p>
 <pre class="r"><code>radon &lt;- read.csv(&quot;../donnees/radon.csv&quot;)
 head(radon)</code></pre>
 <pre><code>##   county floor log_uranium log_radon
@@ -296,7 +311,9 @@ head(radon)</code></pre>
 ## 4 AITKIN     0  -0.6890476 0.0000000
 ## 5  ANOKA     0  -0.8473129 1.1314021
 ## 6  ANOKA     0  -0.8473129 0.9162907</code></pre>
-<p>We estimate the parameters of a mixed model with fixed effects of the floor and uranium level, as well as a random variation of the intercept by county.</p>
+<p>We estimate the parameters of a mixed model with fixed effects of the
+floor and uranium level, as well as a random variation of the intercept
+by county.</p>
 <pre class="r"><code>library(lme4)
 mm_radon &lt;- lmer(log_radon ~ floor + log_uranium + (1 | county), radon)
 summary(mm_radon)</code></pre>
@@ -328,15 +345,28 @@ summary(mm_radon)</code></pre>
 ## log_uranium  0.145 -0.009</code></pre>
 <p>How can fixed effects be interpreted in this model?</p>
 <ul>
-<li><code>(Intercept)</code> is the mean of <code>log_radon</code> if <code>floor</code> = 0 (i.e. in a basement) and <code>log_uranium</code> = 0.</li>
-<li><code>floor</code> is the difference of <code>log_radon</code> if <code>floor</code> increases by 1 (i.e. ground floor compared to the basement).</li>
-<li><code>log_uranium</code> is the effect of an increase of one unit of <code>log_uranium</code> on <code>log_radon</code>. In the particular case where the two variables are on a logarithmic scale, this coefficient can be interpreted as a multiplicative effect: a 1% increase in the concentration of uranium in the soil increases the concentration of radon in homes by 0.72%.</li>
+<li><code>(Intercept)</code> is the mean of <code>log_radon</code> if
+<code>floor</code> = 0 (i.e. in a basement) and <code>log_uranium</code>
+= 0.</li>
+<li><code>floor</code> is the difference of <code>log_radon</code> if
+<code>floor</code> increases by 1 (i.e. ground floor compared to the
+basement).</li>
+<li><code>log_uranium</code> is the effect of an increase of one unit of
+<code>log_uranium</code> on <code>log_radon</code>. In the particular
+case where the two variables are on a logarithmic scale, this
+coefficient can be interpreted as a multiplicative effect: a 1% increase
+in the concentration of uranium in the soil increases the concentration
+of radon in homes by 0.72%.</li>
 </ul>
-<p>Now let’s use the model to predict <code>log_radon</code> for a basement in each county. First, we extract the county name, the uranium concentration and the number of houses per county (that number will be useful later).</p>
+<p>Now let’s use the model to predict <code>log_radon</code> for a
+basement in each county. First, we extract the county name, the uranium
+concentration and the number of houses per county (that number will be
+useful later).</p>
 <pre class="r"><code>comtes &lt;- group_by(radon, county, log_uranium) %&gt;%
     summarize(n = n()) %&gt;%
     ungroup()</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;county&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;county&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <p>Here is the graph of county-level predicted values:</p>
 <pre class="r"><code>comtes$floor &lt;- 0 # basement
 comtes$mm_pred &lt;- predict(mm_radon, comtes)
@@ -344,8 +374,11 @@ comtes$mm_pred &lt;- predict(mm_radon, comtes)
 ggplot(comtes, aes(x = log_uranium, y = mm_pred)) +
     geom_point()</code></pre>
 <p><img src="12E-Mixed_models_Part2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>These predictions deviate from the mean linear trend based on the estimated intercepts for each county (random effects).</p>
-<p>Let’s now compare these predictions to those of two classical linear regressions, one with no county effect or one with fixed effects for each county.</p>
+<p>These predictions deviate from the mean linear trend based on the
+estimated intercepts for each county (random effects).</p>
+<p>Let’s now compare these predictions to those of two classical linear
+regressions, one with no county effect or one with fixed effects for
+each county.</p>
 <pre class="r"><code>lm_radon1 &lt;- lm(log_radon ~ floor + log_uranium, radon)
 lm_radon2 &lt;- lm(log_radon ~ floor + log_uranium + county, radon)
 
@@ -358,8 +391,15 @@ ggplot(comtes, aes(x = log_uranium)) +
     geom_point(aes(y = pred2), shape = 1) +
     geom_point(aes(y = mm_pred))</code></pre>
 <p><img src="12E-Mixed_models_Part2_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>The line represents the prediction of the model ignorning the county, the filled points indicate the county effects of the mixed model, and the hollow points indicate the fixed effects by county. The predictions of the mixed model are closer to the mean trend, showing the shrinkage of the coefficients for the mixed model.</p>
-<p>Now let’s look at the effect of the <span class="math inline">\(n\)</span>, the sample size in each county. For clarity, the two predictions of the same county are connected by a dotted line.</p>
+<p>The line represents the prediction of the model ignorning the county,
+the filled points indicate the county effects of the mixed model, and
+the hollow points indicate the fixed effects by county. The predictions
+of the mixed model are closer to the mean trend, showing the shrinkage
+of the coefficients for the mixed model.</p>
+<p>Now let’s look at the effect of the <span
+class="math inline">\(n\)</span>, the sample size in each county. For
+clarity, the two predictions of the same county are connected by a
+dotted line.</p>
 <pre class="r"><code>ggplot(comtes, aes(x = log_uranium)) +
     labs(y = &quot;log_radon&quot;) +
     geom_line(aes(y = pred1)) +
@@ -368,15 +408,37 @@ ggplot(comtes, aes(x = log_uranium)) +
     geom_segment(aes(xend = log_uranium, y = mm_pred, yend = pred2),
                  linetype = &quot;dotted&quot;)</code></pre>
 <p><img src="12E-Mixed_models_Part2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>This result shows that the smaller the sample size in a county, the more its effect is shrunk towards the mean. In other words, the fewer points in a county, the more the deviation observed between that county and the overall trend is likely to be due to random sampling, and the more the mixed model must “correct” this value by bringing it closer to that of the general trend.</p>
+<p>This result shows that the smaller the sample size in a county, the
+more its effect is shrunk towards the mean. In other words, the fewer
+points in a county, the more the deviation observed between that county
+and the overall trend is likely to be due to random sampling, and the
+more the mixed model must “correct” this value by bringing it closer to
+that of the general trend.</p>
 </div>
 </div>
 <div id="predictions-from-a-mixed-model" class="section level1">
 <h1>Predictions from a mixed model</h1>
-<p>At the last class, we saw the following representation for a mixed model with predictors measured at the individual level (observation <span class="math inline">\(k\)</span>) and at the group level (group <span class="math inline">\(j\)</span>), as well as an intercept that varies randomly between groups.</p>
-<p><span class="math display">\[ y_k = \gamma_0 + \gamma_1 u_{1j[k]} + \beta_1 x_{1k} + \nu_{j[k]} + \epsilon_k \]</span></p>
-<p>In our previous example, the value of <span class="math inline">\(y_k\)</span> is the sum of the mean intercept <span class="math inline">\(\gamma_0\)</span> (the value reported as <code>Intercept</code> by R), the effects of individual-level (<span class="math inline">\(x_1\)</span>: floor) and group-level (<span class="math inline">\(u_1\)</span>: uranium concentration) predictors, the random group effect <span class="math inline">\(\nu\)</span> and a residual <span class="math inline">\(\epsilon\)</span>.</p>
-<p>The <code>fixef</code> function gives us the estimates of <span class="math inline">\(\gamma_0\)</span>, <span class="math inline">\(\gamma_1\)</span> and <span class="math inline">\(\beta_1\)</span>, while<code>ranef</code> shows the estimated random effects <span class="math inline">\(\nu_j\)</span>.</p>
+<p>At the last class, we saw the following representation for a mixed
+model with predictors measured at the individual level (observation
+<span class="math inline">\(k\)</span>) and at the group level (group
+<span class="math inline">\(j\)</span>), as well as an intercept that
+varies randomly between groups.</p>
+<p><span class="math display">\[ y_k = \gamma_0 + \gamma_1 u_{1j[k]} +
+\beta_1 x_{1k} + \nu_{j[k]} + \epsilon_k \]</span></p>
+<p>In our previous example, the value of <span
+class="math inline">\(y_k\)</span> is the sum of the mean intercept
+<span class="math inline">\(\gamma_0\)</span> (the value reported as
+<code>Intercept</code> by R), the effects of individual-level (<span
+class="math inline">\(x_1\)</span>: floor) and group-level (<span
+class="math inline">\(u_1\)</span>: uranium concentration) predictors,
+the random group effect <span class="math inline">\(\nu\)</span> and a
+residual <span class="math inline">\(\epsilon\)</span>.</p>
+<p>The <code>fixef</code> function gives us the estimates of <span
+class="math inline">\(\gamma_0\)</span>, <span
+class="math inline">\(\gamma_1\)</span> and <span
+class="math inline">\(\beta_1\)</span>, while<code>ranef</code> shows
+the estimated random effects <span
+class="math inline">\(\nu_j\)</span>.</p>
 <pre class="r"><code>eff_fixes &lt;- fixef(mm_radon)
 eff_fixes</code></pre>
 <pre><code>## (Intercept)       floor log_uranium 
@@ -390,9 +452,17 @@ head(eff_alea)</code></pre>
 ## BELTRAMI   0.111128434
 ## BENTON     0.008235846
 ## BIG STONE -0.026196357</code></pre>
-<p>Earlier, when we predicted basement radon concentration for each county, the <code>predict</code> function used both fixed and random effects estimates. In other words, the predicted value <span class="math inline">\(\hat{y}\)</span> for a basement (<span class="math inline">\(x_1 = 0\)</span>) in county <span class="math inline">\(j\)</span> is given by:</p>
-<p><span class="math display">\[ \hat{y} = \hat{\gamma_0} + \hat{\gamma_1} u_{1j} + \hat{\nu_{j}} \]</span> ,</p>
-<p>where the hat symbols mean that we use the estimated values of each coefficient. Therefore we could manually calculate the predictions for each county as follows.</p>
+<p>Earlier, when we predicted basement radon concentration for each
+county, the <code>predict</code> function used both fixed and random
+effects estimates. In other words, the predicted value <span
+class="math inline">\(\hat{y}\)</span> for a basement (<span
+class="math inline">\(x_1 = 0\)</span>) in county <span
+class="math inline">\(j\)</span> is given by:</p>
+<p><span class="math display">\[ \hat{y} = \hat{\gamma_0} +
+\hat{\gamma_1} u_{1j} + \hat{\nu_{j}} \]</span> ,</p>
+<p>where the hat symbols mean that we use the estimated values of each
+coefficient. Therefore we could manually calculate the predictions for
+each county as follows.</p>
 <pre class="r"><code>pred_man &lt;- eff_fixes[&quot;(Intercept)&quot;] + 
     eff_fixes[&quot;log_uranium&quot;] * comtes$log_uranium + eff_alea$`(Intercept)`
                 
@@ -400,50 +470,101 @@ all.equal(pred_man, comtes$mm_pred)</code></pre>
 <pre><code>## [1] &quot;names for current but not for target&quot;</code></pre>
 <div id="predictions-for-a-new-group" class="section level2">
 <h2>Predictions for a new group</h2>
-<p>If we try to predict the basement radon concentration for a group (county) not included in the model, R generates an error.</p>
+<p>If we try to predict the basement radon concentration for a group
+(county) not included in the model, R generates an error.</p>
 <pre class="r"><code>nouv_comte &lt;- data.frame(county = &quot;NOUVEAU&quot;, log_uranium = 0.5, floor = 0)
 predict(mm_radon, nouv_comte)</code></pre>
-<pre><code>## Error in levelfun(r, n, allow.new.levels = allow.new.levels): new levels detected in newdata</code></pre>
-<p>By default, the <code>predict</code> function applied to the <code>lmer</code> result tries to use all the random effects. To make a prediction based only on fixed effects, we need to specify the argument <code>re.form = ~ 0</code>.</p>
+<pre><code>## Error in levelfun(r, n, allow.new.levels = allow.new.levels): new levels detected in newdata: NOUVEAU</code></pre>
+<p>By default, the <code>predict</code> function applied to the
+<code>lmer</code> result tries to use all the random effects. To make a
+prediction based only on fixed effects, we need to specify the argument
+<code>re.form = ~ 0</code>.</p>
 <pre class="r"><code>predict(mm_radon, nouv_comte, re.form = ~0)</code></pre>
 <pre><code>##        1 
 ## 1.825897</code></pre>
-<p>We can verify that this prediction was made only based on fixed effects.</p>
+<p>We can verify that this prediction was made only based on fixed
+effects.</p>
 <pre class="r"><code>eff_fixes[&quot;(Intercept)&quot;] + eff_fixes[&quot;log_uranium&quot;] * nouv_comte$log_uranium</code></pre>
 <pre><code>## (Intercept) 
 ##    1.825897</code></pre>
-<p>With a mixed model, it is therefore possible to make predictions for groups that were not in the original data, by using the prediction of an “average” group (with a group random effect equal to 0). Of course, the uncertainty associated with this prediction is greater than when predicting new observations for an existing group.</p>
-<p>The <code>predict</code> function does not provide confidence intervals or prediction intervals for mixed models. These intervals can be estimated by simulating data from the model. These simulation-based methods are not covered in this course, but are part of the course <em>Analyses des données complexes</em>.</p>
+<p>With a mixed model, it is therefore possible to make predictions for
+groups that were not in the original data, by using the prediction of an
+“average” group (with a group random effect equal to 0). Of course, the
+uncertainty associated with this prediction is greater than when
+predicting new observations for an existing group.</p>
+<p>The <code>predict</code> function does not provide confidence
+intervals or prediction intervals for mixed models. These intervals can
+be estimated by simulating data from the model. These simulation-based
+methods are not covered in this course, but are part of the course
+<em>Analyses des données complexes</em>.</p>
 </div>
 </div>
 <div id="multiple-random-effects" class="section level1">
 <h1>Multiple random effects</h1>
-<div id="example-growth-of-spruce-on-several-sites" class="section level2">
+<div id="example-growth-of-spruce-on-several-sites"
+class="section level2">
 <h2>Example: Growth of spruce on several sites</h2>
-<p>Consider again the example seen at the beginning of the last class. We want to model the annual growth of white spruce on different sites. For five consecutive years, we measured annual growth of the same 100 trees based on two predictors (<span class="math inline">\(x_1, x_2\)</span>; say the diameter and age) that vary for each observation (tree and year). We also know the value of a predictor (<span class="math inline">\(u_1\)</span>; say the slope) that is fixed at the site level. How could we represent these data with a linear mixed model?</p>
-<p>To choose the random effects of the model, we can ask the following question: for which groups of observations would the variation of the response be correlated (between observations of the same group)? In this case:</p>
+<p>Consider again the example seen at the beginning of the last class.
+We want to model the annual growth of white spruce on different sites.
+For five consecutive years, we measured annual growth of the same 100
+trees based on two predictors (<span class="math inline">\(x_1,
+x_2\)</span>; say the diameter and age) that vary for each observation
+(tree and year). We also know the value of a predictor (<span
+class="math inline">\(u_1\)</span>; say the slope) that is fixed at the
+site level. How could we represent these data with a linear mixed
+model?</p>
+<p>To choose the random effects of the model, we can ask the following
+question: for which groups of observations would the variation of the
+response be correlated (between observations of the same group)? In this
+case:</p>
 <ul>
 <li>observations made on the same tree from one year to the next;</li>
 <li>observations of two trees taken the same year; and</li>
 <li>observations made on trees at the same site</li>
 </ul>
-<p>may be correlated. We therefore include three random effects in the model (tree, site and year).</p>
-<p>The value of <span class="math inline">\(y_k\)</span>, corresponding to the growth of the tree <span class="math inline">\(i\)</span> at site <span class="math inline">\(j\)</span> during the year <span class="math inline">\(t\)</span>, is represented by the model:</p>
-<p><span class="math display">\[ y_k = \gamma_0 + \gamma_1 u_{1j[k]} + \beta_1 x_{1k} + \beta_2 x_{2k} + \nu_{j[k]} + \xi_{i[k]} + \tau_{t[k]} + \epsilon_k \]</span></p>
-<p>In R, if <code>slope</code> represents the slope of the site and <code>DBH</code> and <code>age</code> are individual-level predictors, that model could be specified as:</p>
+<p>may be correlated. We therefore include three random effects in the
+model (tree, site and year).</p>
+<p>The value of <span class="math inline">\(y_k\)</span>, corresponding
+to the growth of the tree <span class="math inline">\(i\)</span> at site
+<span class="math inline">\(j\)</span> during the year <span
+class="math inline">\(t\)</span>, is represented by the model:</p>
+<p><span class="math display">\[ y_k = \gamma_0 + \gamma_1 u_{1j[k]} +
+\beta_1 x_{1k} + \beta_2 x_{2k} + \nu_{j[k]} + \xi_{i[k]} + \tau_{t[k]}
++ \epsilon_k \]</span></p>
+<p>In R, if <code>slope</code> represents the slope of the site and
+<code>DBH</code> and <code>age</code> are individual-level predictors,
+that model could be specified as:</p>
 <p><code>growth ~ slope + DBH + age + (1 | site) + (1 | tree_id) + (1 | year)</code></p>
-<p>From a model structure point of view, two random effects can be either crossed or nested.</p>
+<p>From a model structure point of view, two random effects can be
+either crossed or nested.</p>
 <ul>
-<li><p>The effects of the tree and the year are crossed: each tree is measured for several years and several trees are measured each year. In the same way, the effects of the site and the year are crossed.</p></li>
-<li><p>The effects of the tree and the site are nested: each tree is associated with one site.</p></li>
+<li><p>The effects of the tree and the year are crossed: each tree is
+measured for several years and several trees are measured each year. In
+the same way, the effects of the site and the year are crossed.</p></li>
+<li><p>The effects of the tree and the site are nested: each tree is
+associated with one site.</p></li>
 </ul>
-<p>To tell R that effect A is nested in effect B, we use a term like <code>(1 | B / A)</code>. In this case, the formula could be rewritten as:</p>
+<p>To tell R that effect A is nested in effect B, we use a term like
+<code>(1 | B / A)</code>. In this case, the formula could be rewritten
+as:</p>
 <p><code>growth ~ slope + DBH + age + (1 | site / tree_id) + (1 | year)</code></p>
-<p>If the tree ID numbers are not repeated from one site to another, it is not necessary to specify the nested effects: the two formulas are equivalent to <code>lmer</code>. However, if the trees were numbered 1, 2, … for each site, it would be necessary to use the formula with the nested effect: otherwise, R would assume that the trees labelled “1” in each site represent the same individual.</p>
+<p>If the tree ID numbers are not repeated from one site to another, it
+is not necessary to specify the nested effects: the two formulas are
+equivalent to <code>lmer</code>. However, if the trees were numbered 1,
+2, … for each site, it would be necessary to use the formula with the
+nested effect: otherwise, R would assume that the trees labelled “1” in
+each site represent the same individual.</p>
 </div>
 <div id="example-split-plot-experiment-design" class="section level2">
 <h2>Example: Split-plot experiment design</h2>
-<p>The <code>Oats</code> data frame in the <em>nlme</em> package shows the results of a split-plot agricultural experiment. The experiment is done in six blocks. Each block is divided into three sections where a different variety of oats is sown, then each section is divided into four quadrants which each receive a different concentration of nitrogen (<code>nitro</code>): 0, 0.2, 0.4 or 0.6. The response variable is oat yield for each of the 72 quadrants (6 blocks x 3 varieties x 4 nitrogen concentrations).</p>
+<p>The <code>Oats</code> data frame in the <em>nlme</em> package shows
+the results of a split-plot agricultural experiment. The experiment is
+done in six blocks. Each block is divided into three sections where a
+different variety of oats is sown, then each section is divided into
+four quadrants which each receive a different concentration of nitrogen
+(<code>nitro</code>): 0, 0.2, 0.4 or 0.6. The response variable is oat
+yield for each of the 72 quadrants (6 blocks x 3 varieties x 4 nitrogen
+concentrations).</p>
 <pre class="r"><code>library(nlme)
 # Change block to an unrdered factor
 Oats$Block &lt;- factor(Oats$Block, ordered = FALSE)
@@ -456,12 +577,26 @@ head(Oats)</code></pre>
 ## 4     I     Victory   0.6   174
 ## 5     I Golden Rain   0.0   117
 ## 6     I Golden Rain   0.2   114</code></pre>
-<p>Here is an example of a possible spatial configuration for this experiment. The planted varieties (colors) are randomly assigned to the three sections of each block and the nitrogen concentrations (numbers) are randomly assigned to the quadrants of each section.</p>
+<p>Here is an example of a possible spatial configuration for this
+experiment. The planted varieties (colors) are randomly assigned to the
+three sections of each block and the nitrogen concentrations (numbers)
+are randomly assigned to the quadrants of each section.</p>
 <p><img src="../images/split_plot.png" /></p>
-<p>The split-plot design is a way of replicating two experimental treatments across several blocks. Its particular feature is that one of the treatments (here, the variety of oats) is applied to a larger surface and another treatment (here, the concentration of nitrogen) is nested within the first.</p>
-<p>We can first define a random effect of the block, which represents the fact that the variance of the response is smaller between observations of the same block than between observations of different blocks. This could be due for example to unmeasured environmental gradients in the plot.</p>
+<p>The split-plot design is a way of replicating two experimental
+treatments across several blocks. Its particular feature is that one of
+the treatments (here, the variety of oats) is applied to a larger
+surface and another treatment (here, the concentration of nitrogen) is
+nested within the first.</p>
+<p>We can first define a random effect of the block, which represents
+the fact that the variance of the response is smaller between
+observations of the same block than between observations of different
+blocks. This could be due for example to unmeasured environmental
+gradients in the plot.</p>
 <pre class="r"><code>mm_oats &lt;- lmer(yield ~ nitro + Variety + (1 | Block), Oats)</code></pre>
-<p>For the same reason, it is possible that the variance is smaller between quadrants of the same section; we can take into account this second level of grouping by including a random effect of the section (variety) nested in that of the block.</p>
+<p>For the same reason, it is possible that the variance is smaller
+between quadrants of the same section; we can take into account this
+second level of grouping by including a random effect of the section
+(variety) nested in that of the block.</p>
 <pre class="r"><code>mm_oats2 &lt;- lmer(yield ~ nitro + Variety + (1 | Block / Variety), Oats)
 summary(mm_oats2)</code></pre>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
@@ -493,8 +628,18 @@ summary(mm_oats2)</code></pre>
 ## nitro       -0.252              
 ## VartyMrvlls -0.439  0.000       
 ## VarityVctry -0.439  0.000  0.500</code></pre>
-<p>At first glance, it seems contradictory to use the same <code>Variety</code> variable as a fixed effect and as a random effect. However, the random effect does not apply to the differences between the 3 varieties (it would be incorrect to write <code>(1 | Variety)</code>), but rather to the differences between the 18 sections represented by the combinations of a block and of a variety. This is why this random effect is noted as a <code>Variety: Block</code> interaction in the summary.</p>
-<p>By looking at the confidence intervals of these two models, we notice that the second gives a wider confidence interval for the fixed effects of the varieties, but a narrower interval for the effect of nitrogen.</p>
+<p>At first glance, it seems contradictory to use the same
+<code>Variety</code> variable as a fixed effect and as a random effect.
+However, the random effect does not apply to the differences between the
+3 varieties (it would be incorrect to write <code>(1 | Variety)</code>),
+but rather to the differences between the 18 sections represented by the
+combinations of a block and of a variety. This is why this random effect
+is noted as a <code>Variety: Block</code> interaction in the
+summary.</p>
+<p>By looking at the confidence intervals of these two models, we notice
+that the second gives a wider confidence interval for the fixed effects
+of the varieties, but a narrower interval for the effect of
+nitrogen.</p>
 <pre class="r"><code>confint(mm_oats, oldNames = FALSE)</code></pre>
 <pre><code>## Computing profile confidence intervals ...</code></pre>
 <pre><code>##                           2.5 %    97.5 %
@@ -516,14 +661,24 @@ summary(mm_oats2)</code></pre>
 ## VarietyVictory               -20.625094  6.875096</code></pre>
 <p>How can we explain these differences?</p>
 <ul>
-<li><p>In the first model, we assumed that all observations were independent within a block. In the second model, the observations of the same section are correlated, so we do not really have 4 independent replicates of each variety. This increases uncertainty about the effect of varieties.</p></li>
-<li><p>On the other hand, considering the random effects by section, the residual variance between observations of the same section is reduced. Since the 4 levels of nitrogen concentration are replicated in each section, a smaller residual variance helps to reduce uncertainty about the effect of this predictor.</p></li>
+<li><p>In the first model, we assumed that all observations were
+independent within a block. In the second model, the observations of the
+same section are correlated, so we do not really have 4 independent
+replicates of each variety. This increases uncertainty about the effect
+of varieties.</p></li>
+<li><p>On the other hand, considering the random effects by section, the
+residual variance between observations of the same section is reduced.
+Since the 4 levels of nitrogen concentration are replicated in each
+section, a smaller residual variance helps to reduce uncertainty about
+the effect of this predictor.</p></li>
 </ul>
 </div>
 </div>
 <div id="mixed-model-with-random-slope" class="section level1">
 <h1>Mixed model with random slope</h1>
-<p>Let’s take a look at the <code>rikz</code> dataset seen at the last class, presenting the species richness of 45 intertidal sites across 9 beaches in the Netherlands.</p>
+<p>Let’s take a look at the <code>rikz</code> dataset seen at the last
+class, presenting the species richness of 45 intertidal sites across 9
+beaches in the Netherlands.</p>
 <pre class="r"><code>rikz &lt;- read.csv(&quot;../donnees/rikz.csv&quot;)
 # Fix the categorical variables
 rikz &lt;- mutate(rikz, Beach = as.factor(Beach), 
@@ -538,13 +693,33 @@ head(rikz)</code></pre>
 ## 4      4       11       10  0.616     1 3.316625
 ## 5      5       10       10 -0.684     1 3.162278
 ## 6      6        8        8  1.190     2 2.828427</code></pre>
-<p>The following model includes a fixed effect of the position of the site relative to the mean sea level (NAP) and a random variation of the intercept between the beaches.</p>
+<p>The following model includes a fixed effect of the position of the
+site relative to the mean sea level (NAP) and a random variation of the
+intercept between the beaches.</p>
 <pre class="r"><code>mm_rikz &lt;- lmer(srich ~ NAP + (1 | Beach), rikz)</code></pre>
-<p><em>Note</em>: To avoid complicating the model, we ignore the <code>Exposure</code> group-level predictor for now.</p>
-<p>We could also consider a case where the effect of the NAP on the response varies from one beach to another. Our model would therefore take the form:</p>
-<p><span class="math display">\[ \hat{y_k} = \alpha_{j[k]} + \beta_{j[k]} x_k \]</span> ,</p>
-<p>where the intercept and slope of <span class="math inline">\(y\)</span> vs. <span class="math inline">\(x\)</span> both vary from group to group. In this case, the mixed model assumes that <span class="math inline">\(\alpha_j\)</span> and <span class="math inline">\(\beta_j\)</span> follow a normal distribution with a standard deviation of <span class="math inline">\(\sigma_\alpha\)</span> and <span class="math inline">\(\sigma_\beta\)</span>, respectively. However, the model does not assume that the two effects are independent. As we saw in the last class, the intercept and slope of a regression can be correlated, so the model also estimates their correlation <span class="math inline">\(\rho_{\alpha \beta}\)</span>.</p>
-<p>In R, to represent a random variation of the effect of one of the predictors, we add this predictor on the left part of the random effect term:</p>
+<p><em>Note</em>: To avoid complicating the model, we ignore the
+<code>Exposure</code> group-level predictor for now.</p>
+<p>We could also consider a case where the effect of the NAP on the
+response varies from one beach to another. Our model would therefore
+take the form:</p>
+<p><span class="math display">\[ \hat{y_k} = \alpha_{j[k]} +
+\beta_{j[k]} x_k \]</span> ,</p>
+<p>where the intercept and slope of <span
+class="math inline">\(y\)</span> vs. <span
+class="math inline">\(x\)</span> both vary from group to group. In this
+case, the mixed model assumes that <span
+class="math inline">\(\alpha_j\)</span> and <span
+class="math inline">\(\beta_j\)</span> follow a normal distribution with
+a standard deviation of <span
+class="math inline">\(\sigma_\alpha\)</span> and <span
+class="math inline">\(\sigma_\beta\)</span>, respectively. However, the
+model does not assume that the two effects are independent. As we saw in
+the last class, the intercept and slope of a regression can be
+correlated, so the model also estimates their correlation <span
+class="math inline">\(\rho_{\alpha \beta}\)</span>.</p>
+<p>In R, to represent a random variation of the effect of one of the
+predictors, we add this predictor on the left part of the random effect
+term:</p>
 <pre class="r"><code>mm_rikz2 &lt;- lmer(srich ~ NAP + (1 + NAP | Beach), rikz)
 summary(mm_rikz2)</code></pre>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
@@ -572,8 +747,12 @@ summary(mm_rikz2)</code></pre>
 ## Correlation of Fixed Effects:
 ##     (Intr)
 ## NAP -0.390</code></pre>
-<p>Here, the correlation between the intercept and the slope random effects is -0.41, as shown in the <code>Corr</code> column of the random effects table. The fixed effect of NAP now represents the mean slope for all beaches.</p>
-<p>As before, the coefficients estimated for each beach can be viewed with <code>coef</code>.</p>
+<p>Here, the correlation between the intercept and the slope random
+effects is -0.41, as shown in the <code>Corr</code> column of the random
+effects table. The fixed effect of NAP now represents the mean slope for
+all beaches.</p>
+<p>As before, the coefficients estimated for each beach can be viewed
+with <code>coef</code>.</p>
 <pre class="r"><code>coef(mm_rikz2)</code></pre>
 <pre><code>## $Beach
 ##   (Intercept)        NAP
@@ -589,7 +768,10 @@ summary(mm_rikz2)</code></pre>
 ## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;coef.mer&quot;</code></pre>
-<p>The following graph shows the variation of prediction lines between beaches for this model. Due to the shrinkage effect, the slope varies less than in the model estimating a fixed effect of the interaction between NAP and beach (see lecture notes for the last class).</p>
+<p>The following graph shows the variation of prediction lines between
+beaches for this model. Due to the shrinkage effect, the slope varies
+less than in the model estimating a fixed effect of the interaction
+between NAP and beach (see lecture notes for the last class).</p>
 <pre class="r"><code>rikz$fit2 &lt;- fitted(mm_rikz2)
 
 ggplot(rikz, aes(x = NAP, y = srich, color = Beach)) +
@@ -599,8 +781,12 @@ ggplot(rikz, aes(x = NAP, y = srich, color = Beach)) +
 </div>
 <div id="model-selection" class="section level1">
 <h1>Model selection</h1>
-<p>The process of comparing and selecting models is more complex for mixed models, since both fixed and random terms must be chosen.</p>
-<p>For example, compare the AICc of the two previous models for species richness vs. NAP in the <code>rikz</code> data: (1) the model with varying intercepts by beach and (2) the model varying intercepts and slopes.</p>
+<p>The process of comparing and selecting models is more complex for
+mixed models, since both fixed and random terms must be chosen.</p>
+<p>For example, compare the AICc of the two previous models for species
+richness vs. NAP in the <code>rikz</code> data: (1) the model with
+varying intercepts by beach and (2) the model varying intercepts and
+slopes.</p>
 <pre class="r"><code>library(AICcmodavg)
 
 aictab(list(mm_rikz = mm_rikz, mm_rikz2 = mm_rikz2))</code></pre>
@@ -613,15 +799,31 @@ aictab(list(mm_rikz = mm_rikz, mm_rikz2 = mm_rikz2))</code></pre>
 ##          K   AICc Delta_AICc AICcWt Cum.Wt Res.LL
 ## mm_rikz  4 106.15        0.0   0.57   0.57 -48.57
 ## mm_rikz2 6 106.75        0.6   0.43   1.00 -46.27</code></pre>
-<p>As we saw in the last lesson, the <code>lmer</code> function estimates the mixed model parameters using the restricted maximum likelihood method (REML), in order to obtain unbiased estimates of the variance parameters. The warning indicates that the AIC(c) calculated on models fit by REML is only valid for the comparison of models with the same fixed effects, but different random effects.</p>
-<p>In their manual, Zuur et al. (2009) suggest the following protocol:</p>
+<p>As we saw in the last lesson, the <code>lmer</code> function
+estimates the mixed model parameters using the restricted maximum
+likelihood method (REML), in order to obtain unbiased estimates of the
+variance parameters. The warning indicates that the AIC(c) calculated on
+models fit by REML is only valid for the comparison of models with the
+same fixed effects, but different random effects.</p>
+<p>In their manual, Zuur et al. (2009) suggest the following
+protocol:</p>
 <ol style="list-style-type: decimal">
-<li><p>First, include all the fixed effects of interest and choose, if necessary, between different versions of the random effects. This step is based on the AIC of models fitted by REML.</p></li>
-<li><p>Keep the random effects chosen in the previous step and compare different versions of the fixed effects. This step requires comparing the models fitted by maximum likelihood, not by REML (with the <code>REML = FALSE</code> option of<code>lmer</code>).</p></li>
+<li><p>First, include all the fixed effects of interest and choose, if
+necessary, between different versions of the random effects. This step
+is based on the AIC of models fitted by REML.</p></li>
+<li><p>Keep the random effects chosen in the previous step and compare
+different versions of the fixed effects. This step requires comparing
+the models fitted by maximum likelihood, not by REML (with the
+<code>REML = FALSE</code> option of<code>lmer</code>).</p></li>
 <li><p>Refit the best model by REML to get the final estimates.</p></li>
 </ol>
-<p>This protocol is based on the idea that it is better to simplify the random effects before simplifying the fixed effects, since we are generally more interested in the estimation of the fixed effects.</p>
-<p>In our example, suppose that our complete fixed-effects model takes the form <code>srich ~ NAP + Exposure</code>. Let’s first determine whether or not to include the random effect of the beach on the NAP coefficient.</p>
+<p>This protocol is based on the idea that it is better to simplify the
+random effects before simplifying the fixed effects, since we are
+generally more interested in the estimation of the fixed effects.</p>
+<p>In our example, suppose that our complete fixed-effects model takes
+the form <code>srich ~ NAP + Exposure</code>. Let’s first determine
+whether or not to include the random effect of the beach on the NAP
+coefficient.</p>
 <pre class="r"><code>mod_comp &lt;- lmer(srich ~ NAP + Exposure + (1 | Beach), rikz)
 mod_comp2 &lt;- lmer(srich ~ NAP + Exposure + (1 + NAP | Beach), rikz)
 
@@ -635,9 +837,12 @@ aictab(list(mod_comp = mod_comp, mod_comp2 = mod_comp2))</code></pre>
 ##           K   AICc Delta_AICc AICcWt Cum.Wt Res.LL
 ## mod_comp  6 100.18        0.0    0.8    0.8 -42.98
 ## mod_comp2 8 102.98        2.8    0.2    1.0 -41.49</code></pre>
-<p>We thus choose the first model (random effect on intercept only). Next, compare models with or without the exposure index. Since we compare different fixed effects, we have to refit the models with ML rather than REML.</p>
+<p>We thus choose the first model (random effect on intercept only).
+Next, compare models with or without the exposure index. Since we
+compare different fixed effects, we have to refit the models with ML
+rather than REML.</p>
 <pre class="r"><code>mod_comp_ml &lt;- lmer(srich ~ NAP + Exposure + (1 | Beach), rikz, REML = FALSE)</code></pre>
-<pre><code>## boundary (singular) fit: see ?isSingular</code></pre>
+<pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <pre class="r"><code>mod_nap_ml &lt;- lmer(srich ~ NAP + (1 | Beach), rikz, REML = FALSE)
 
 aictab(list(mod_comp_ml = mod_comp_ml, mod_nap_ml = mod_nap_ml))</code></pre>
@@ -647,40 +852,91 @@ aictab(list(mod_comp_ml = mod_comp_ml, mod_nap_ml = mod_nap_ml))</code></pre>
 ##             K   AICc Delta_AICc AICcWt Cum.Wt     LL
 ## mod_comp_ml 6  92.13        0.0   0.99   0.99 -38.96
 ## mod_nap_ml  4 101.83        9.7   0.01   1.00 -46.42</code></pre>
-<p>In conclusion, the best model includes the effect of the NAP and exposure, as well as a random effect of the beach on the intercept.</p>
+<p>In conclusion, the best model includes the effect of the NAP and
+exposure, as well as a random effect of the beach on the intercept.</p>
 <div id="fixed-or-random-effect" class="section level2">
 <h2>Fixed or random effect?</h2>
-<p>Since a different method is required to compare models with different random effects (REML) or with different fixed effects (ML), the AIC cannot be used to determine whether a variable should be considered a fixed or random effect, e.g. we cannot compare <code>srich ~ NAP + Beach</code> with <code>srich ~ NAP + (1 | Beach)</code>.</p>
-<p>It is therefore necessary to determine <em>a priori</em> which variables constitute fixed or random effects. Here are some guidelines for choosing whether a categorical variable should be included as a random effect:</p>
+<p>Since a different method is required to compare models with different
+random effects (REML) or with different fixed effects (ML), the AIC
+cannot be used to determine whether a variable should be considered a
+fixed or random effect, e.g. we cannot compare
+<code>srich ~ NAP + Beach</code> with
+<code>srich ~ NAP + (1 | Beach)</code>.</p>
+<p>It is therefore necessary to determine <em>a priori</em> which
+variables constitute fixed or random effects. Here are some guidelines
+for choosing whether a categorical variable should be included as a
+random effect:</p>
 <ul>
-<li><p>If the purpose of the model is to estimate the effect of one or more specific treatments on the response, the variable representing these treatments should be a fixed effect.</p></li>
-<li><p>If the categorical variable has only two levels (binary), it must be considered as a fixed effect. With more than two levels, it is possible to estimate a random effect; however, the smaller the number of levels, the more uncertain the variance estimate between groups, so there is less benefit from using a random effect.</p></li>
-<li><p>With several groups and few observations in some of these groups, it is better to use a random effect.</p></li>
-<li><p>If we are less interested in the differences between particular groups, but rather in describing the variation between groups and possibly extending the scope of the model to groups not present in the data, it is preferable to use a random effect.</p></li>
+<li><p>If the purpose of the model is to estimate the effect of one or
+more specific treatments on the response, the variable representing
+these treatments should be a fixed effect.</p></li>
+<li><p>If the categorical variable has only two levels (binary), it must
+be considered as a fixed effect. With more than two levels, it is
+possible to estimate a random effect; however, the smaller the number of
+levels, the more uncertain the variance estimate between groups, so
+there is less benefit from using a random effect.</p></li>
+<li><p>With several groups and few observations in some of these groups,
+it is better to use a random effect.</p></li>
+<li><p>If we are less interested in the differences between particular
+groups, but rather in describing the variation between groups and
+possibly extending the scope of the model to groups not present in the
+data, it is preferable to use a random effect.</p></li>
 </ul>
-<p>Finally, there is no harm in including a random effect even if this effect does not explain much of the variance. For example, in the model <code>srich ~ NAP + Exposure + (1 | Beach)</code>, there was very little variation between beaches after controlling for the <code>Exposure</code> variable, as indicated by the intra-class correlation of 0.06. The purpose of the random effects is not to detect significant differences between groups, but rather to take into account the hierarchical structure of the variation of the response, in order to obtain better estimates of the fixed effects and their uncertainty.</p>
+<p>Finally, there is no harm in including a random effect even if this
+effect does not explain much of the variance. For example, in the model
+<code>srich ~ NAP + Exposure + (1 | Beach)</code>, there was very little
+variation between beaches after controlling for the
+<code>Exposure</code> variable, as indicated by the intra-class
+correlation of 0.06. The purpose of the random effects is not to detect
+significant differences between groups, but rather to take into account
+the hierarchical structure of the variation of the response, in order to
+obtain better estimates of the fixed effects and their uncertainty.</p>
 </div>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
 <ul>
-<li><p>Mixed models estimate random effect parameters based on the number of observations per group: the fewer observations per group, the more its effect is shrunk towards the overall average.</p></li>
-<li><p>To predict a new observation in an existing group, we use the estimated random effect for that group. To predict a new observation in a new group, we use only fixed effects (the effect of an “average” group).</p></li>
-<li><p>Several random effects can be included in the same model. These effects can be nested or crossed. If the levels of the variable <span class="math inline">\(A\)</span> are nested in those of the variable <span class="math inline">\(B\)</span>, their random effect is represented by <code>(1 | B / A)</code> in the model formula.</p></li>
-<li><p>A variable can have a random effect on the intercept and on the coefficient (slope) of an individual predictor. This indicates that the effect of the predictor on the response varies from group to group, similar to an interaction in a classical linear model.</p></li>
-<li><p>The AIC(c) is a valid measure for the comparison of models with different random effects and the same fixed effects, or with different fixed effects and the same random effects. These models must be adjusted by REML in the first case and by ML (<code>REML = FALSE</code>) in the second case.</p></li>
+<li><p>Mixed models estimate random effect parameters based on the
+number of observations per group: the fewer observations per group, the
+more its effect is shrunk towards the overall average.</p></li>
+<li><p>To predict a new observation in an existing group, we use the
+estimated random effect for that group. To predict a new observation in
+a new group, we use only fixed effects (the effect of an “average”
+group).</p></li>
+<li><p>Several random effects can be included in the same model. These
+effects can be nested or crossed. If the levels of the variable <span
+class="math inline">\(A\)</span> are nested in those of the variable
+<span class="math inline">\(B\)</span>, their random effect is
+represented by <code>(1 | B / A)</code> in the model formula.</p></li>
+<li><p>A variable can have a random effect on the intercept and on the
+coefficient (slope) of an individual predictor. This indicates that the
+effect of the predictor on the response varies from group to group,
+similar to an interaction in a classical linear model.</p></li>
+<li><p>The AIC(c) is a valid measure for the comparison of models with
+different random effects and the same fixed effects, or with different
+fixed effects and the same random effects. These models must be adjusted
+by REML in the first case and by ML (<code>REML = FALSE</code>) in the
+second case.</p></li>
 </ul>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
-<p>Synthesis article on the application of mixed models and model selection in ecology:</p>
+<p>Synthesis article on the application of mixed models and model
+selection in ecology:</p>
 <ul>
-<li>Harrison, X.A., Donaldson, L., Correa-Cano, M.E., Evans, J. Fisher, D.N., Goodwin, C.E.D., Robinson, B.S., Hodgson, D.J., Inger, R. (2018) A brief introduction to mixed effects modelling and multi-model inference in ecology. <em>PeerJ</em> 6: e4794.</li>
+<li>Harrison, X.A., Donaldson, L., Correa-Cano, M.E., Evans, J. Fisher,
+D.N., Goodwin, C.E.D., Robinson, B.S., Hodgson, D.J., Inger, R. (2018) A
+brief introduction to mixed effects modelling and multi-model inference
+in ecology. <em>PeerJ</em> 6: e4794.</li>
 </ul>
 <p>Textbooks mentioned at the last class:</p>
 <ul>
-<li><p>Gelman, A. and Hill, J. (2006) <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Cambridge, Cambridge University Press.</p></li>
-<li><p>Zuur, A.F., Ieno, E.N., Walker, N.J., Saveliev, A.A., Smith, G.M. (2009) <em>Mixed Effects Models and Extensions in Ecology with R</em>. New York, Springer-Verlag.</p></li>
+<li><p>Gelman, A. and Hill, J. (2006) <em>Data Analysis Using Regression
+and Multilevel/Hierarchical Models</em>. Cambridge, Cambridge University
+Press.</p></li>
+<li><p>Zuur, A.F., Ieno, E.N., Walker, N.J., Saveliev, A.A., Smith, G.M.
+(2009) <em>Mixed Effects Models and Extensions in Ecology with R</em>.
+New York, Springer-Verlag.</p></li>
 </ul>
 </div>
 
@@ -695,7 +951,7 @@ aictab(list(mod_comp_ml = mod_comp_ml, mod_nap_ml = mod_nap_ml))</code></pre>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -713,7 +969,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -722,6 +978,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
@@ -734,7 +993,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

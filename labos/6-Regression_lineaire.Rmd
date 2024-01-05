@@ -1,6 +1,6 @@
 ---
 title: "Régression linéaire simple"
-date: "6 octobre 2021"
+date: "5 octobre 2023"
 output: 
     html_document:
         self_contained: false

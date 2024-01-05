@@ -14,12 +14,22 @@
 
 <title>Simple linear regression</title>
 
-<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
 <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -27,12 +37,16 @@
 <link href="libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -45,32 +59,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 
 
@@ -80,10 +70,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -100,6 +86,12 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
@@ -112,7 +104,6 @@ summary {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -238,7 +229,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -249,7 +240,7 @@ div.tocify {
 
 
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -259,10 +250,16 @@ div.tocify {
 </div>
 
 
-<p>Answers for this lab must be submitted before <strong>October 13th at 5pm on Moodle</strong>. In your answer for each question, please include the R code used (if applicable) and the results obtained.</p>
+<p>Answers for this lab must be submitted before <strong>October 13th at
+5pm on Moodle</strong>. In your answer for each question, please include
+the R code used (if applicable) and the results obtained.</p>
 <div id="growth-of-a-pine-species" class="section level2">
 <h2>1. Growth of a pine species</h2>
-<p>The <code>Loblolly</code> data frame included with R indicates the height in feet (<em>height</em>) measured at six values of age (3 to 25 years) for 14 individuals of the species <em>Pinus taeda</em>. Each individual is indicated by a different value in the <em>Seed</em> column.</p>
+<p>The <code>Loblolly</code> data frame included with R indicates the
+height in feet (<em>height</em>) measured at six values of age (3 to 25
+years) for 14 individuals of the species <em>Pinus taeda</em>. Each
+individual is indicated by a different value in the <em>Seed</em>
+column.</p>
 <pre class="r"><code>head(Loblolly)</code></pre>
 <pre><code>##    height age Seed
 ## 1    4.51   3  301
@@ -272,15 +269,31 @@ div.tocify {
 ## 57  52.70  20  301
 ## 71  60.92  25  301</code></pre>
 <ol style="list-style-type: lower-alpha">
-<li><p>Estimate and interpret the parameters of a linear model of height versus age for these pines. Does the intercept make biological sense for this model?</p></li>
-<li><p>Add a new column in the data frame containing the residuals of the model in (a), obtained with the <code>residuals</code> function, then make a scatterplot of those residuals as a function of the tree (<em>Seed</em>). Based on this result, which assumption of linear regression could be invalid here?</p></li>
-<li><p>From the diagnostic graphs of the model in (a), indicate whether the assumptions of linearity, equality of variances and normality appear to be met.</p></li>
-<li><p>Explain how each of the unmet assumptions identified in (b) and (c) affects the validity of the model’s conclusions. In other words, how might the model’s estimates and predictions differ from reality?</p></li>
+<li><p>Estimate and interpret the parameters of a linear model of height
+versus age for these pines. Does the intercept make biological sense for
+this model?</p></li>
+<li><p>Add a new column in the data frame containing the residuals of
+the model in (a), obtained with the <code>residuals</code> function,
+then make a scatterplot of those residuals as a function of the tree
+(<em>Seed</em>). Based on this result, which assumption of linear
+regression could be invalid here?</p></li>
+<li><p>From the diagnostic graphs of the model in (a), indicate whether
+the assumptions of linearity, equality of variances and normality appear
+to be met.</p></li>
+<li><p>Explain how each of the unmet assumptions identified in (b) and
+(c) affects the validity of the model’s conclusions. In other words, how
+might the model’s estimates and predictions differ from
+reality?</p></li>
 </ol>
 </div>
 <div id="plant-diversity-in-the-british-isles" class="section level2">
 <h2>2. Plant diversity in the British Isles</h2>
-<p>The data table <a href="britain_species.csv">britain_species.csv</a> comes from the study by Johnson and Simberloff (1974), “Environmental determinants of island species numbers in the British Isles”. These data indicate the number of vascular plant species for 42 British Isles according to different predictors, including the area of the island in km<span class="math inline">\(^2\)</span>.</p>
+<p>The data table <a href="britain_species.csv">britain_species.csv</a>
+comes from the study by Johnson and Simberloff (1974), “Environmental
+determinants of island species numbers in the British Isles”. These data
+indicate the number of vascular plant species for 42 British Isles
+according to different predictors, including the area of the island in
+km<span class="math inline">\(^2\)</span>.</p>
 <pre class="r"><code>iles &lt;- read.csv(&quot;britain_species.csv&quot;)
 str(iles)</code></pre>
 <pre><code>## &#39;data.frame&#39;:    42 obs. of  7 variables:
@@ -292,19 +305,36 @@ str(iles)</code></pre>
 ##  $ dist_britain: num  14 0.2 5.2 77.4 201.6 ...
 ##  $ species     : int  75 855 577 409 177 1666 300 443 482 453 ...</code></pre>
 <ol style="list-style-type: lower-alpha">
-<li>Suppose that a theory predicts that the number of species (<span class="math inline">\(S\)</span>) depends on island area (<span class="math inline">\(A\)</span>) according to the following equation, where <span class="math inline">\(c\)</span> and <span class="math inline">\(z\)</span> are parameters to be esimated:</li>
+<li>Suppose that a theory predicts that the number of species (<span
+class="math inline">\(S\)</span>) depends on island area (<span
+class="math inline">\(A\)</span>) according to the following equation,
+where <span class="math inline">\(c\)</span> and <span
+class="math inline">\(z\)</span> are parameters to be esimated:</li>
 </ol>
 <p><span class="math display">\[S = c A^z\]</span></p>
 <p>How can you transform this equation into a linear model?</p>
 <ol start="2" style="list-style-type: lower-alpha">
-<li><p>Fit the model in (a) to the data and check the diagnostic graphs. What is the estimate of <span class="math inline">\(z\)</span>?</p></li>
-<li><p>Suppose the theory predicts that <span class="math inline">\(z = 0.25\)</span>. Calculate a confidence interval for <span class="math inline">\(z\)</span> and determine whether or not this assumption can be rejected at a significance level of <span class="math inline">\(\alpha = 0.05\)</span>.</p></li>
-<li><p>From the model in (b), give a 90% prediction interval of the number of species for (i) an island of 0.5 km<span class="math inline">\(^2\)</span> and (ii) an island of 20 km<span class="math inline">\(^2\)</span>.</p></li>
+<li><p>Fit the model in (a) to the data and check the diagnostic graphs.
+What is the estimate of <span class="math inline">\(z\)</span>?</p></li>
+<li><p>Suppose the theory predicts that <span class="math inline">\(z =
+0.25\)</span>. Calculate a confidence interval for <span
+class="math inline">\(z\)</span> and determine whether or not this
+assumption can be rejected at a significance level of <span
+class="math inline">\(\alpha = 0.05\)</span>.</p></li>
+<li><p>From the model in (b), give a 90% prediction interval of the
+number of species for (i) an island of 0.5 km<span
+class="math inline">\(^2\)</span> and (ii) an island of 20 km<span
+class="math inline">\(^2\)</span>.</p></li>
 </ol>
 <p><em>Notes</em>:</p>
 <ul>
-<li><p>Change the % of the prediction interval with the <code>level</code> argument of <code>predict</code>.</p></li>
-<li><p>If the model response is a transformation of the <code>species</code> variable, you can apply the inverse transformation to the lower and upper bounds of the intervals obtained with <code>predict</code> to find the corresponding number of species.</p></li>
+<li><p>Change the % of the prediction interval with the
+<code>level</code> argument of <code>predict</code>.</p></li>
+<li><p>If the model response is a transformation of the
+<code>species</code> variable, you can apply the inverse transformation
+to the lower and upper bounds of the intervals obtained with
+<code>predict</code> to find the corresponding number of
+species.</p></li>
 </ul>
 </div>
 
@@ -319,7 +349,7 @@ str(iles)</code></pre>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -337,7 +367,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -346,6 +376,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
@@ -358,7 +391,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
