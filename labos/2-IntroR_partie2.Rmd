@@ -1,6 +1,5 @@
 ---
 title: "Introduction à R - Partie 2"
-date: "7 septembre 2022"
 output:
   pdf_document:
     toc: yes
@@ -42,45 +41,86 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - Pour **charger** un package dans votre session R courante et ainsi avoir accès à ses fonctions, utilisez la fonction `library`, ex.: `library(ggplot2)`. Notez que les guillemets ne sont pas requis cette fois.
 
+![ components of the tidiverse from https://education.rstudio.com/blog/2020/07/teaching-the-tidyverse-in-2020-part-1-getting-started/](2-IntroR_partie2_files/figure-html/tidyverse-packages.png)
+
+- Depuis 2019, *ggplot2* et *dplyr* sont inclus dans une collection de packages: le *tydiverse*. Utiliser cette collection vous permet d'un seul coup au moins 9 packages qui sont couramment utilisés pour structurer et visualiser les données. Tous les packages du tidyverse peuvent être installés avec `install.packages("tidyverse")`
 
 
 # Visualisation des données avec *ggplot2*
 
-Il existe plusieurs façons de produire des graphiques dans R. Nous utiliserons dans ce cours le package *ggplot2*, qui permet de réaliser plusieurs types de graphiques avec la même structure de code et offre une grande gamme d'options pour personnaliser l'apparence des graphiques.
+Il existe plusieurs façons de produire des graphiques dans R. Nous utiliserons dans ce cours le package *ggplot2* du *tydiverse*, qui permet de réaliser plusieurs types de graphiques avec la même structure de code et offre une grande gamme d'options pour personnaliser l'apparence des graphiques.
+
+
 
 ```{r, warning = FALSE, message = FALSE}
-library(ggplot2)
+library(tidyverse)
 ```
 
 ## Créer un nuage de points
 
-Le jeu de données `msleep` inclus avec *ggplot2* comporte des données sur le sommeil de 83 espèces de mammifères.
+Le jeu de données *Iris* fournit les mesures en centimètres des variables suivantes : longueur du sépale, largeur du sépale, longueur du pétale et largeur du pétale, respectivement, pour 50 fleurs de chacune des 3 espèces d'iris. Les espèces sont Iris setosa, Iris versicolor et Iris virginica.
+
+
+
 
 ```{r}
-msleep
+
+head(iris)
+
+
+
 ```
+
+![ components of the tidiverse from https://education.rstudio.com/blog/2020/07/teaching-the-tidyverse-in-2020-part-1-getting-started/](2-IntroR_partie2_files/figure-html/1_H2UmG5L1I5bzFCW006N5Ag.png)
+
 
 Entrez le code suivant pour produire un nuage de points montrant le nombre d'heures de la phase REM (*sleep_rem*) en fonction du nombre total d'heures de sommeil.
 
 ```{r}
-ggplot(data = msleep, mapping = aes(x = sleep_total, y = sleep_rem)) +
+
+ggplot(data = iris, mapping = aes(x = Sepal.Width, y = Petal.Length)) +
     geom_point()
+
 ```
 
-Le graphique apparaît dans l'onglet *Plots* du quadrant inférieur droit dans RStudio. Vous pouvez l'exporter en format .PNG ou .PDF à l'aide du menu *Export*.
 
 Ce premier exemple illustre la structure de base pour la production d'un graphique avec *ggplot2*:
 
 - Un appel à la fonction `ggplot` avec deux arguments: 
 
     + un tableau de données (`data`) et
-    + une association (`mapping`) spécifiée avec la fonction `aes`. À l'intérieur de cette fonction `aes`, on associe des éléments du graphique à des variables du jeu de données (ex. *sleep_total* sur l'axe des *x*).
+    + une association (`mapping`) spécifiée avec la fonction `aes`. À l'intérieur de cette fonction `aes`, on associe des éléments du graphique à des variables du jeu de données (ex. *Sepal.Width* sur l'axe des *x*).
     
 - Le symbole `+` pour indiquer que nous ajouterons d'autres composantes au graphique.
 
 - Une fonction de type *geom* pour spécifier les éléments géométriques représentés (ici `geom_point`, pour un nuage de points).
 
-> **Note:** Après avoir indiqué le tableau de données comme argument `data`, il suffit dans la fonction `aes` de nommer les variables du tableau, sans guillemets et sans préciser de nouveau le nom du tableau (`sleep_rem` au lieu de `msleep$sleep_rem`). C'est une propriété particulière des fonctions du package *ggplot2*, que nous retrouverons aussi avec le package *dplyr* ci-dessous, ainsi qu'avec les fonctions de régression plus tard dans le cours.
+> **Note:** Après avoir indiqué le tableau de données comme argument `data`, il suffit dans la fonction `aes` de nommer les variables du tableau, sans guillemets et sans préciser de nouveau le nom du tableau (`Petal.Length` au lieu de `iris$Petal.Length`). C'est une propriété particulière des fonctions du package *ggplot2*, que nous retrouverons aussi avec le package *dplyr* ci-dessous, ainsi qu'avec les fonctions de régression plus tard dans le cours.
+
+
+Le graphique apparaît dans l'onglet *Plots* du quadrant inférieur droit dans RStudio. Vous pouvez l'exporter en format .PNG ou .PDF à l'aide du menu Export. Vous pouvez aussi utiliser la fonction `ggsave` pour enregistrer le fichier dans le format que vous préférez et avec la résolution dont vous avez besoin. Pour utiliser la fonction `ggsave`, rappelez-vous d'enregistrer votre graphique sous forme d'objet dans votre environnement, en définissant un nom :
+
+ 
+```{r}
+
+graphiqueiris = ggplot(data = iris, mapping = aes(x = Sepal.Width, y = Petal.Length)) +
+    geom_point()
+
+ggsave(graphiqueiris, file = "graphiqueiris.jpeg", width = 4, height = 4, dpi = 150)
+
+
+```
+
+il y a des groupe de points dans le graphique, seriez vous capables d’identifier la source de ce comportement? 
+
+```{r}
+
+ggplot(data = iris, mapping = aes(x = Sepal.Width, y = Petal.Length,color=Species)) +
+    geom_point()
+
+
+
+```
 
 ## Exercice 1 {#retour1}
 
@@ -109,7 +149,7 @@ On peut utiliser plusieurs fonctions `geom_...` pour superposer des éléments s
 ```{r}
 ggplot(kejim, aes(x = espece, y = dhp)) +
     geom_boxplot() +
-    geom_point(color = "red")
+    geom_point(color = "blue")
 ```
 
 Nous pouvons aussi représenter des statistiques sommaires d'un ensemble de points, comme leur moyenne.
@@ -117,14 +157,14 @@ Nous pouvons aussi représenter des statistiques sommaires d'un ensemble de poin
 ```{r}
 ggplot(kejim, aes(x = espece, y = dhp)) +
     geom_boxplot() +
-    geom_point(color = "red", stat = "summary", fun = "mean")
+    geom_point(color = "blue", stat = "summary", fun = "mean")
 ```
 
 Produisons maintenant un histogramme du DHP pour l'ensemble des arbres avec `geom_histogram`. L'histogramme représente une seule variable, donc nous n'avons pas besoin de spécifier *y* dans `aes`. 
 
 ```{r}
 ggplot(kejim, aes(x = dhp)) +
-    geom_histogram(binwidth = 5, color = "white", fill = "blue")
+    geom_histogram(binwidth = 2.5, color = "white", fill = "red")
 ```
 
 Dans la fonction `geom_histogram`, nous avons spécifié plusieurs arguments afin de choisir la taille des intervalles (`binwidth`) la couleur de la bordure (`color`) et la couleur de remplissage des barres (`fill`).
@@ -257,7 +297,7 @@ Le package *dplyr* regroupe des fonctions qui simplifient plusieurs opérations 
 **Question**: Quelles sont les variables dans le tableau suivant, qui indique le nombre d'individus par site et espèce? Est-ce qu'il respecte la forme normale décrite ci-dessus?
 
 ```{r echo = FALSE}
-arbre_df <- data.frame(site = c("A", "B", "C"), sapin = c(35, 24, 51), pin = c(10, 12, 19), bouleau = c(26, 45, 8))
+arbre_df <- data.frame(site = c("A", "B", "C"), sapin = c(38, 22, 54), pin = c(15, 14, 20), bouleau = c(30, 50, 10))
 arbre_df
 ```
 

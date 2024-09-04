@@ -7,8 +7,8 @@
 library(ggplot2)
 
 
-# msleep dataset
-head(msleep)
+# iris dataset
+head(iris)
 
 
 # Create a scatter plot 

@@ -1,13 +1,14 @@
 ---
 title: "Introduction to R - Part 2"
-date: "September 8, 2021"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: true
+  html_document:
+    self_contained: false
+    lib_dir: libs
+    theme: spacelab
+    toc: true
+    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
@@ -41,9 +42,16 @@ knitr::opts_chunk$set(echo = TRUE)
 - To **load** a package into your current R session and have access to its functions, use the `library` function, e.g. `library(ggplot2)`. Note that quotation marks are not required this time.
 
 
+![ components of the tidiverse from https://education.rstudio.com/blog/2020/07/teaching-the-tidyverse-in-2020-part-1-getting-started/](2-IntroR_partie2_files/figure-html/tidyverse-packages.png)
+
+-  Since 2019, *ggplot2* and *dplyr* have been included in a collection of packages called the tidyverse. Using this collection gives you access to at least 9 packages that are commonly used for structuring and visualizing data. All the packages in the tidyverse can be installed with `install.packages("tidyverse")`.
+
+# Visualisation des données avec *ggplot2*
+
+
+
 # Data visualization with *ggplot2*
 
-There are several ways to produce graphs in R. We will use in this course the *ggplot2* package, which provides a consistent code structure for multiple types of graphs and offers a wide range of options to customize the appearance of the graphics.
 
 ```{r, warning = FALSE}
 library(ggplot2)
@@ -51,11 +59,17 @@ library(ggplot2)
 
 ## Create a scatter plot
 
-The `msleep` dataset included with *ggplot2* contains data on sleep of 83 mammal species.
+
+The Iris dataset provides the measurements in centimeters of the following variables: sepal length, sepal width, petal length, and petal width, respectively, for 50 flowers from each of the 3 iris species. The species are Iris setosa, Iris versicolor, and Iris virginica
+
 
 ```{r}
-msleep
+head(iris)
 ```
+
+
+![ components of the tidiverse from https://education.rstudio.com/blog/2020/07/teaching-the-tidyverse-in-2020-part-1-getting-started/](2-IntroR_partie2_files/figure-html/1_H2UmG5L1I5bzFCW006N5Ag.png)
+
 
 Enter the following code to produce a scatter plot showing the number of hours of the REM phase (*sleep_rem*) based on the total number of hours of sleep.
 
@@ -78,6 +92,36 @@ This first example illustrates the basic structure for producing a graph with *g
 - A *geom* function to specify the geometric elements represented (here `geom_point`, for a scatter plot).
 
 > **Note:** After naming the data frame in the `data` argument, the `aes` function only requires the variable names, without quotation marks and without specifying the data frame again (`sleep_rem` instead of `msleep$sleep_rem`). This is a special property of the *ggplot2* package functions, which we will also find with the *dplyr* package below, as well as with the regression functions later in the lesson.
+
+
+
+
+
+
+The graph appears in the Plots tab of the lower right quadrant in RStudio. You can export it in .PNG or .PDF format using the Export menu. You can also use the ggsave function to save the file in your preferred format and with the resolution you need. To use the ggsave function, remember to save your graph as an object in your environment by assigning it a name:
+ 
+ 
+```{r}
+
+graphiqueiris = ggplot(data = iris, mapping = aes(x = Sepal.Width, y = Petal.Length)) +
+    geom_point()
+
+
+ggsave(graphiqueiris, file = "graphiqueiris.jpeg", width = 4, height = 4, dpi = 150)
+
+
+```
+
+Are you able to identify the source of the grouping of points in the graph?
+
+```{r}
+
+ggplot(data = iris, mapping = aes(x = Sepal.Width, y = Petal.Length,color=Species)) +
+    geom_point()
+
+
+
+```
 
 ## Exercise 1 {#retour1}
 
