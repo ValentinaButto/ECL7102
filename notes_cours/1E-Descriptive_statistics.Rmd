@@ -1,6 +1,5 @@
 ---
 title: "Descriptive statistics and graphics"
-date: "<br/>August 31, 2023"
 output:
   pdf_document:
     toc: yes

@@ -1,6 +1,5 @@
 ---
 title: "Introduction à R - Partie 1"
-date: "1 septembre 2023"
 output:
   pdf_document:
     toc: yes
